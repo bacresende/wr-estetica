@@ -1,0 +1,63 @@
+<form [formGroup]="formularioLogin">
+  <p-toast />
+<div class="container-login">
+  <p-card header="Faça seu login" [style]="{ color: '#3B82F6' }">
+    <div class="card">
+      <p-inputGroup>
+        <p-inputGroupAddon> &#64; </p-inputGroupAddon>
+        <input type="email" formControlName="email" pInputText placeholder="Digite seu e-mail" />
+      </p-inputGroup>
+      <p-inputGroup>
+        <p-inputGroupAddon> <i class="pi pi-lock"></i></p-inputGroupAddon>
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="senha"
+          pInputText
+          placeholder="Digite sua senha"
+        />
+        <i
+          [pTooltip]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+          [class]="
+            showPassword
+              ? 'pi pi-eye-slash custom-icon'
+              : 'pi pi-eye custom-icon'
+          "
+          (click)="mostrarSenha()"
+        ></i>
+      </p-inputGroup>
+
+      <!-- <span class="font-bold block mb-2">Phone</span>
+      <p-inputMask
+        mask="(999) 9 9999-9999"
+        [(ngModel)]="value2"
+        placeholder="(999) 9 9999-9999"
+      /> -->
+      <div
+        style="
+        margin-top: 1rem;
+          display: flex;
+          align-items: end;
+          flex-direction: column;
+          gap: 1rem;
+        "
+      >
+        <span style="font-weight: 600; margin-top: 1rem;" (click)="fazerCadastro()"
+          >Não tem conta? Clique aqui</span
+        >
+
+        <span style="color: gray; font-weight: 300" (click)="recuperarSenha()"
+          >Esqueceu sua senha?</span
+        >
+      </div>
+      <p-button
+        [style]="{'width': '100%'}"
+        label="Login"
+        size="small"
+        (click)="fazerLogin()"
+        [loading]="loadingLogin"
+      ></p-button>
+    </div>
+  </p-card>
+</div>
+
+</form>

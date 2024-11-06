@@ -1,0 +1,92 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Helvetica;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+header {
+  background-color: #3b82f6;
+  text-align: center;
+  color: white;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.container {
+  background-color: #eee;
+  min-height: 60vh;
+  padding: 50px;
+}
+
+.products-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 31%;
+  display: inline-block;
+  margin: 1% 1%;
+  padding: 15px;
+  border-radius: 20px;
+  border: 3px solid #3b82f6;
+}
+
+
+.product-image {
+  height: 300px;
+  width: 100%;
+  margin-bottom: 10px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+#img-1 {
+  background-image: url("https://s3.static.brasilescola.uol.com.br/be/2024/04/tenista-com-raquete-e-bola-de-tenis.jpg");
+}
+
+#img-2 {
+  background-image: url("https://s3.static.brasilescola.uol.com.br/be/2024/04/tenista-com-raquete-e-bola-de-tenis.jpg");
+}
+
+#img-3 {
+  background-image: url("https://s3.static.brasilescola.uol.com.br/be/2024/04/tenista-com-raquete-e-bola-de-tenis.jpg");
+}
+
+#img-4 {
+  background-image: url("https://s3.static.brasilescola.uol.com.br/be/2024/04/tenista-com-raquete-e-bola-de-tenis.jpg");
+}
+
+#img-5 {
+  background-image: url("https://s3.static.brasilescola.uol.com.br/be/2024/04/tenista-com-raquete-e-bola-de-tenis.jpg");
+}
+
+#img-6 {
+  background-image: url("https://s3.static.brasilescola.uol.com.br/be/2024/04/tenista-com-raquete-e-bola-de-tenis.jpg");
+}
+
+footer {
+  background-color: #3b82f6;
+  text-align: center;
+  color: white;
+  padding: 80px;
+}
+
+.btn{
+    background-color: #3b82f6;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    border-radius: 50px;
+}

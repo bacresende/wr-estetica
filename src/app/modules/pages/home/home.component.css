@@ -1,0 +1,91 @@
+:root {
+  --secondary-color: #2ecc71;
+  --accent-color: #e74c3c;
+  --bg-color: #f5f7fa;
+  --text-color: #333;
+  --card-bg: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+
+  --header-bg-color: #34495e;
+  --header-text-color: #ecf0f1;
+  --header-icon-color: #bdc3c7;
+  --header-height: 60px;
+}
+
+header {
+  background-color: white;
+  border-bottom: 1px solid var(--primary-color);
+
+  width: 100%;
+  display: flex;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+}
+
+header h1 {
+  font-size: 1rem;
+  font-family: "Helvetica";
+  color: var(--primary-color);
+}
+
+header .buttons-text {
+  display: flex;
+  gap: 5px;
+
+  @media (max-width: 750px) {
+    display: none;
+  }
+}
+
+header .buttons-icon {
+  display: none;
+
+  @media (max-width: 750px) {
+    display: flex;
+  }
+}
+
+.dashboard-container {
+  margin: 20px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: 200px; */
+  gap: 20px;
+  grid-template-areas: "chart table";
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 100%;
+    
+    grid-template-areas: "chart" "table";
+    justify-content: center;
+    
+  }
+}
+
+.charts {
+  /* display: flex;
+  flex-direction: column; */
+
+  grid-area: chart;
+  @media (max-width: 750) {
+    
+  }
+}
+
+.data-table {
+  grid-area: table;
+
+  @media (max-width: 750) {
+    
+  }
+
+  
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+}
+
+@media (max-width: 480px) {
+}

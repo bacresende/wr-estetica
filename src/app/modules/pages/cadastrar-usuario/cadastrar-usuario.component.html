@@ -1,0 +1,221 @@
+<form [formGroup]="formularioCadastro" (submit)="fazerCadastro()">
+  <p-toast />
+  <div class="container-login">
+    <p-card header="Crie sua conta" [style]="{ color: '#3B82F6' }">
+      <p-fieldset
+        [style]="{ 'margin-bottom': '1.5rem', padding: '0px' }"
+        legend="Usuário"
+        [toggleable]="true"
+      >
+        <div class="card">
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-user"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              type="text"
+              formControlName="nome"
+              placeholder="Seu nome"
+            />
+          </p-inputGroup>
+
+          <div style="display: flex; width: 100%; box-sizing: border-box">
+            <p-inputGroupAddon> 123</p-inputGroupAddon>
+            <p-inputMask
+              inputmode="numeric"
+              formControlName="cpf"
+              mask="999.999.999-99"
+              placeholder="Seu CPF"
+              [style]="{'width': '252px',}"
+            />
+          </div>
+
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-shopping-bag"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              type="text"
+              formControlName="ocupacao"
+              placeholder="Sua ocupação profissional"
+            />
+          </p-inputGroup>
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-gift"></i> </p-inputGroupAddon>
+            <p-calendar
+              [showIcon]="true"
+              [locale]="ptbrConfiguracao"
+              dateFormat="dd/mm/yy"
+              [readonlyInput]="false"
+              [showButtonBar]="true"
+              [showOnFocus]="false" 
+              formControlName="dataNasc"
+              placeholder="Sua data de nascimento"
+              inputId="birth_date"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> &#64; </p-inputGroupAddon>
+            <input
+              type="email"
+              formControlName="email"
+              pInputText
+              placeholder="Seu e-mail"
+            />
+          </p-inputGroup>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              text-align: center;
+            "
+          >
+            <p-inputGroup>
+              <p-inputGroupAddon> <i class="pi pi-lock"></i></p-inputGroupAddon>
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                pInputText
+                formControlName="senha"
+                placeholder="Sua senha"
+              />
+              <i
+                [pTooltip]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+                [class]="
+                  showPassword
+                    ? 'pi pi-eye-slash custom-icon'
+                    : 'pi pi-eye custom-icon'
+                "
+                (click)="mostrarSenha()"
+              ></i>
+            </p-inputGroup>
+          </div>
+
+          <div style="display: flex; width: 100%; box-sizing: border-box">
+            <p-inputGroupAddon> <i class="pi pi-phone"></i></p-inputGroupAddon>
+            <p-inputMask
+              inputmode="numeric"
+              formControlName="telefone"
+              mask="(99) 9 9999-9999"
+              placeholder="Seu telefone"
+              [style]="{'width': '252px',}"
+            />
+          </div>
+        </div>
+      </p-fieldset>
+
+      <p-fieldset
+        [style]="{ padding: '0px' }"
+        legend="Endereço"
+        [toggleable]="true"
+      >
+        <div class="card">
+          <div style="display: flex; width: 100%; box-sizing: border-box">
+            <p-inputGroupAddon> 123</p-inputGroupAddon>
+            <p-inputMask
+              inputmode="numeric"
+              formControlName="cep"
+              mask="99999-999"
+              placeholder="Seu CEP"
+              [style]="{'width': '252px',}"
+              (ngModelChange)="buscarCep($event)"
+            />
+          </div>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="endereco"
+              type="text"
+              placeholder="Seu Endereço"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="numeroResidencia"
+              type="text"
+              placeholder="Seu número residencial"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="bairro"
+              type="text"
+              placeholder="Seu bairro"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="complemento"
+              type="text"
+              placeholder="Seu complemento"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="cidade"
+              type="text"
+              placeholder="Sua cidade"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="estado"
+              type="text"
+              placeholder="Seu estado"
+            />
+          </p-inputGroup>
+
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-map"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              formControlName="pais"
+              type="text"
+              placeholder="Seu país"
+            />
+          </p-inputGroup>
+        </div>
+      </p-fieldset>
+
+      <div
+        style="
+          display: flex;
+          align-items: end;
+          justify-content: end;
+          margin: 1.5rem 0;
+        "
+      >
+        <span style="font-weight: 600" (click)="fazerLogin()"
+          >Já tem conta? Clique aqui</span
+        >
+      </div>
+      <button
+        pButton
+        pRipple
+        type="submit"
+        class="button"
+        label="Criar conta"
+        size="small"
+      ></button>
+    </p-card>
+  </div>
+</form>

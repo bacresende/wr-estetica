@@ -1,0 +1,38 @@
+
+:host {
+  height: 100vh;
+  height: 100dvh;
+  background: url("../../../../assets/estetica.jpeg");
+  background-size: cover; /* Faz a imagem cobrir todo o container */
+  background-position: center; /* Centraliza a imagem */
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container-login {
+  padding: 1rem;
+}
+
+.card {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.custom-icon {
+  font-size: 1.6rem; /* Altere para o tamanho desejado */
+  align-self: center;
+  margin-left: 1rem;
+}
+
+.button {
+  width: 100%;
+}
+
+span {
+  cursor: pointer;
+}
