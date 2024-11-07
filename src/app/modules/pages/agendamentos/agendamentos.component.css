@@ -1,0 +1,33 @@
+header {
+  background-color: white;
+  border-bottom: 1px solid var(--primary-color);
+
+  width: 100%;
+  display: flex;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+}
+
+header h1 {
+  font-size: 1rem;
+  font-family: "Helvetica";
+  color: var(--primary-color);
+}
+
+header .buttons-text {
+  display: flex;
+  gap: 5px;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.tabela {
+  margin: 10%;
+  width: 80%;
+}
+
+

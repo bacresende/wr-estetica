@@ -8,6 +8,7 @@ import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
 import { MenuModule } from "primeng/menu";
 import { TagModule } from "primeng/tag";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -28,6 +29,8 @@ export class HomeComponent implements OnInit {
   lineChartData: any;
   orders!: any[];
   transactions!: any[];
+
+  constructor(private readonly router: Router){}
 
   ngOnInit(): void {
     // Swal.fire({
@@ -77,22 +80,24 @@ export class HomeComponent implements OnInit {
     {
       label: "Agendamento",
       icon: "pi pi-pencil",
-      command: () => this.agendamento(),
+      command: () => this.agendamentos(),
     },
     {
       label: "Cadastrar cliente",
       icon: "pi pi-trash",
-      command: () => this.agendamento(),
+      command: () => this.agendamentos(),
     },
     {
       label: "Formulários",
       icon: "pi pi-info",
-      command: () => this.agendamento(),
+      command: () => this.agendamentos(),
     },
-    { label: "Sair", icon: "pi pi-info", command: () => this.agendamento() },
+    { label: "Sair", icon: "pi pi-info", command: () => this.agendamentos() },
   ];
 
-  private agendamento() {}
+  public agendamentos() {
+    this.router.navigate(['/agendamentos']);
+  }
 
   public finalizarSessao(){
     alert('finalizada');
