@@ -8,7 +8,8 @@ import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
 import { MenuModule } from "primeng/menu";
 import { TagModule } from "primeng/tag";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { CadastroUsuario } from "../../models/cadastro-usuario.model";
 
 @Component({
   selector: "app-home",
@@ -29,10 +30,17 @@ export class HomeComponent implements OnInit {
   lineChartData: any;
   orders!: any[];
   transactions!: any[];
+  public usuario!: CadastroUsuario;
 
-  constructor(private readonly router: Router){}
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.usuario = this.route.snapshot.data["usuario"];
+    
+
     // Swal.fire({
     //   title: "Top demais!",
     //   text: "Em breve teremos mais coisas por aqui!",
@@ -96,11 +104,11 @@ export class HomeComponent implements OnInit {
   ];
 
   public agendamentos() {
-    this.router.navigate(['/agendamentos']);
+    this.router.navigate(["/agendamentos"]);
   }
 
-  public finalizarSessao(){
-    alert('finalizada');
+  public finalizarSessao() {
+    alert("finalizada");
   }
 
   getSeverity(status: string) {

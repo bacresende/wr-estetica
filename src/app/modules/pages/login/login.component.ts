@@ -1,4 +1,4 @@
-import { catchError } from 'rxjs';
+import { catchError } from "rxjs";
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
@@ -20,7 +20,7 @@ import { RippleModule } from "primeng/ripple";
 import { ToastModule } from "primeng/toast";
 import { TooltipModule } from "primeng/tooltip";
 import { UsuarioService } from "../../services/usuario/usuario.service";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-login",
@@ -43,7 +43,7 @@ import Swal from 'sweetalert2';
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.css",
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
   public showPassword: boolean = false;
   public formularioLogin!: FormGroup;
   public loadingLogin: boolean = false;
@@ -64,30 +64,32 @@ export class LoginComponent implements OnInit{
   }
 
   public fazerLogin() {
-    
     if (this.formularioLogin.valid) {
       this.loadingLogin = true;
-      const {email, senha} = this.formularioLogin.value
+      const { email, senha } = this.formularioLogin.value;
       this.usuarioService.logarUsuario(email, senha).subscribe({
-        next: (retorno)=>{
-          if(retorno){
-            console.log('login feito');
-            
-            this.irParaHome();
-            
-
+        next: (retorno: { funcao: string; idUsuario: string }) => {
+          if (retorno) {
+            if (retorno.funcao === "ADM") {
+              this.irParaHome(retorno.idUsuario);
+            }else{
+              Swal.fire({
+                title: "Ops!",
+                text: "Você ainda não tem acesso a nossa tela",
+                icon: "error"
+              });
+            }
+            console.log("login feito");
           }
         },
-        error: (error)=>{
+        error: (error) => {
           this.loadingLogin = false;
           this.messageService.add({
             severity: "warn",
             summary: "Ops",
-            detail: 'Dados inválidos',
+            detail: "Dados inválidos",
           });
-        }
-      
-        
+        },
       });
     } else {
       this.messageService.add({
@@ -98,10 +100,10 @@ export class LoginComponent implements OnInit{
     }
   }
 
-  private criarFormulario(){
+  private criarFormulario() {
     this.formularioLogin = this.fb.group({
-      email: this.fb.control('', [Validators.required]),
-      senha: this.fb.control('', [Validators.required]),
+      email: this.fb.control("", [Validators.required]),
+      senha: this.fb.control("", [Validators.required]),
     });
   }
 
@@ -113,7 +115,7 @@ export class LoginComponent implements OnInit{
     this.showPassword = !this.showPassword;
   }
 
-  public irParaHome() {
-    this.router.navigate(["/inicio"]);
+  public irParaHome(idUsuario: string) {
+    this.router.navigate(["/inicio", idUsuario]);
   }
 }

@@ -1,10 +1,15 @@
 <header>
-  <h1>Wr Estética</h1>
+  <h1>Olá, {{ usuario.usuario.nome }}</h1>
   <div class="buttons-text">
     <p-button label="Agendamentos" (onClick)="agendamentos()" size="small" />
     <p-button label="Cadastrar cliente" size="small" />
     <p-button label="Formulários" size="small" />
-    <p-button (mousemove)="finalizarSessao()" label="Sair" [style]="{ color: 'red' }" [link]="true" />
+    <p-button
+      (mousemove)="finalizarSessao()"
+      label="Sair"
+      [style]="{ color: 'red' }"
+      [link]="true"
+    />
   </div>
 
   <div class="buttons-icon">
@@ -18,9 +23,8 @@
 
   <!-- Gráficos -->
   <p-card header="Vendas Mensais" class="charts">
-      <p-chart type="line" [data]="lineChartData"></p-chart>
-    </p-card>
- 
+    <p-chart type="line" [data]="lineChartData"></p-chart>
+  </p-card>
 
   <!-- Tabela de Transações Recentes -->
   <div class="data-table">
@@ -42,12 +46,13 @@
             <td>{{ transaction.date }}</td>
             <td>{{ transaction.amount | currency }}</td>
             <td>{{ transaction.status }}</td>
-            <p-tag [value]="transaction.status" [severity]="getSeverity(transaction.status)" />
+            <p-tag
+              [value]="transaction.status"
+              [severity]="getSeverity(transaction.status)"
+            />
           </tr>
         </ng-template>
       </p-table>
     </p-card>
   </div>
-
-  
 </div>
