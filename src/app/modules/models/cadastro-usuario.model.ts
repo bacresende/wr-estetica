@@ -3,5 +3,5 @@ import { Usuario } from "./usuario.model";
 
 export interface CadastroUsuario {
   usuario: Usuario;
-  endereco: Endereco;
+  endereco?: Endereco;
 }

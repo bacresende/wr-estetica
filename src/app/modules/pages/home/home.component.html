@@ -5,7 +5,7 @@
     <p-button label="Cadastrar cliente" size="small" />
     <p-button label="Formulários" size="small" />
     <p-button
-      (mousemove)="finalizarSessao()"
+      (onClick)="finalizarSessao()"
       label="Sair"
       [style]="{ color: 'red' }"
       [link]="true"
@@ -26,9 +26,8 @@
     <p-chart type="line" [data]="lineChartData"></p-chart>
   </p-card>
 
-  <!-- Tabela de Transações Recentes -->
   <div class="data-table">
-    <p-card header="Transações Recentes" class="table-card">
+    <p-card header="Agendamentos Recentes" >
       <p-table [value]="transactions" responsiveLayout="scroll">
         <ng-template pTemplate="header">
           <tr>

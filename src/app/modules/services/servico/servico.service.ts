@@ -1,13 +1,13 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { AgendamentoRepresentation } from "../../models/agendamento-representation.model";
+import { ServicoRepresentation } from "../../models/servico.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class AgendamentoService {
+export class ServicoService {
   private apiUrl = environment.apiUrl;
 
   private headers = new HttpHeaders({
@@ -18,9 +18,9 @@ export class AgendamentoService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public obterAgendamentos(): Observable<Array<AgendamentoRepresentation>> {
+  public obterServicos(): Observable<Array<ServicoRepresentation>> {
     return this.httpClient
-      .post<Array<AgendamentoRepresentation>>(`${this.apiUrl}/obter-agendamentos`, null, {
+      .post<Array<ServicoRepresentation>>(`${this.apiUrl}/obter-servicos`, null, {
         headers: this.headers,
       })
       .pipe(

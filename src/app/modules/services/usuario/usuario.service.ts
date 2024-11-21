@@ -86,6 +86,25 @@ export class UsuarioService {
       );
   }
 
+  public obterClientes(): Observable<Array<CadastroUsuario>> {
+    return this.httpClient
+      .post<Array<CadastroUsuario>>(
+        `${this.apiUrl}/obter-clientes`,
+        null,
+        { headers: this.headers }
+      )
+      .pipe(
+        map((resultUsuario: any) => {
+          return resultUsuario.result;
+        }),
+        catchError((e) => {
+          let msg = e.error.error;
+          
+          return throwError(() => new Error(msg));
+        })
+      );
+  }
+
   public obterUsuarioAndEndereco(idUsuario: string): Observable<CadastroUsuario> {
     return this.httpClient
       .post<CadastroUsuario>(

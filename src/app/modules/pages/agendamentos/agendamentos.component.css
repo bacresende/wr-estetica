@@ -30,4 +30,8 @@ header .buttons-text {
   width: 80%;
 }
 
-
+.novo-agendamento-card {
+  width: 45rem;
+  height: 100%;
+  background-color: red;
+}

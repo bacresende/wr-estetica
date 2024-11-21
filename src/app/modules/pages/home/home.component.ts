@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit {
   }
 
   public finalizarSessao() {
-    alert("finalizada");
+    this.router.navigate(['']);
   }
 
   getSeverity(status: string) {

@@ -7,4 +7,5 @@ export interface Usuario {
   cpf: string;
   ocupacaoProfissional: string;
   funcao?: "ADM" | "CLIENTE" | "FUNC";
+  objectId?: string;
 }
