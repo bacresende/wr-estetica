@@ -68,10 +68,11 @@ export class LoginComponent implements OnInit {
       this.loadingLogin = true;
       const { email, senha } = this.formularioLogin.value;
       this.usuarioService.logarUsuario(email, senha).subscribe({
-        next: (retorno: { funcao: string; idUsuario: string }) => {
-          if (retorno) {
-            if (retorno.funcao === "ADM") {
-              this.irParaHome(retorno.idUsuario);
+        next: (funcionario: { funcao: string; idUsuario: string }) => {
+          if (funcionario) {
+            if (funcionario.funcao === "ADM") {
+              localStorage.setItem('idFuncionario', funcionario.idUsuario);
+              this.irParaHome(funcionario.idUsuario);
             }else{
               Swal.fire({
                 title: "Ops!",

@@ -1,6 +1,12 @@
 import { CommonModule, DatePipe, Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { RatingModule } from "primeng/rating";
 import { RippleModule } from "primeng/ripple";
@@ -11,7 +17,10 @@ import {
 } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
-import { AgendamentoService } from "../../services/agendamento-service/agendamento.service";
+import {
+  AgendamentoCommand,
+  AgendamentoService,
+} from "../../services/agendamento-service/agendamento.service";
 import { DialogModule } from "primeng/dialog";
 import { InputGroupModule } from "primeng/inputgroup";
 import { InputGroupAddonModule } from "primeng/inputgroupaddon";
@@ -68,17 +77,14 @@ export class AgendamentosComponent implements OnInit {
   servicosAgendados: Array<ServicoRepresentation> = [];
   dialogVisible: boolean = false;
   public servicos: Array<ServicoRepresentation> = [];
-
   public visibilidadeNovoAgendamento: boolean = false;
-
   clientes: Array<CadastroUsuario> | undefined;
-
   clienteSelecionado: CadastroUsuario | undefined;
-
   clientesFiltrados!: Array<CadastroUsuario>;
+  formNovoAgendamento!: FormGroup;
 
   public metodosPagamentos = [
-    { name: "PIX", code: "PIX" },
+    { name: "Pix", code: "PIX" },
     { name: "Débito", code: "DEB" },
     { name: "Crédito", code: "CRE" },
     { name: "Dinheiro", code: "DIN" },
@@ -95,13 +101,25 @@ export class AgendamentosComponent implements OnInit {
     private servicoService: ServicoService,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
-    private location: Location
+    private location: Location,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.obterAgendamentos();
     this.obterClientes();
     this.obterServicos();
+    this.criarFormulario();
+  }
+
+  private criarFormulario() {
+    this.formNovoAgendamento = this.fb.group({
+      clienteSelecionado: this.fb.control(null, [Validators.required]),
+      dataAgendamento: this.fb.control(null, [Validators.required]),
+      servicosSelecionado: this.fb.control(null, [Validators.required]),
+      metodoPagamento: this.fb.control(null, [Validators.required]),
+      statusPagamento: this.fb.control(null, [Validators.required]),
+    });
   }
 
   filterCountry(event: AutoCompleteCompleteEvent) {
@@ -201,8 +219,7 @@ export class AgendamentosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: "Atualizar",
       denyButtonText: `Excluir`,
-      cancelButtonText: 'Cancelar'
-      
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         //Atualizar
@@ -219,13 +236,33 @@ export class AgendamentosComponent implements OnInit {
   }
 
   public salvarAgendamento() {
+    this.validarPreenchimentoCliente();
+    if (this.formNovoAgendamento.valid) {
+      console.log(this.formNovoAgendamento.value);
+
+      //fazendo aqui
+      this.configurarCommand();
+
+      this.visibilidadeNovoAgendamento = false;
+    } else {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Ops",
+        detail: "Há campos em branco",
+      });
+    }
+  }
+
+  private validarPreenchimentoCliente() {
+    const { clienteSelecionado } = this.formNovoAgendamento.value;
+
     const usuarioRecebido =
-      this.clienteSelecionado?.usuario?.nome ?? this.clienteSelecionado;
-    const usuarioValido = this.clientes?.find(
+      clienteSelecionado?.usuario?.nome ?? clienteSelecionado;
+    const clienteValido = this.clientes?.find(
       (usuario) => usuario.usuario.nome === usuarioRecebido
     );
 
-    if (!usuarioValido) {
+    if (!clienteValido) {
       console.log("usuário inválido");
       this.messageService.add({
         severity: "warn",
@@ -235,7 +272,30 @@ export class AgendamentosComponent implements OnInit {
       this.clienteSelecionado = undefined;
       return;
     }
-    //this.visibilidadeNovoAgendamento = false;
+
+    this.formNovoAgendamento.patchValue({
+      clienteSelecionado: clienteValido
+    });
+  }
+
+  private configurarCommand(): AgendamentoCommand {
+    const servicosRepresentation: Array<ServicoRepresentation> =
+      this.formNovoAgendamento.value.servicosSelecionado;
+
+      const idServicos = servicosRepresentation.map((servico)=> servico.id);
+
+    const agendamentoCommand: AgendamentoCommand = {
+      dataHora: this.formNovoAgendamento.value.dataAgendamento,
+      idServicos: idServicos,
+      pagamento: {
+        metodoPagamento: this.formNovoAgendamento.value.metodoPagamento.name,
+        statusPagamento: this.formNovoAgendamento.value.statusPagamento.name,
+      },
+      idFuncionario: localStorage.getItem("idFuncionario") ?? "",
+      idCliente: this.formNovoAgendamento.value.clienteSelecionado.usuario.objectId,
+    };
+
+    return agendamentoCommand;
   }
 
   public voltar(): void {

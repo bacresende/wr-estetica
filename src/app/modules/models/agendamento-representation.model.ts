@@ -18,8 +18,8 @@ export interface Pagamento {
   id: string;
   data: string;
   valor: number;
-  metodoPagamento: string;
-  status: string;
+  metodoPagamento: 'Pix'|'Débito'|'Crédito'|'Dinheiro';
+  status: 'Pago'|'Pendente'|'Estornado';
 }
 
 export interface Usuario {
