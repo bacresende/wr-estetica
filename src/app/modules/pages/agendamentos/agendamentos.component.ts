@@ -79,7 +79,6 @@ export class AgendamentosComponent implements OnInit {
   public servicos: Array<ServicoRepresentation> = [];
   public visibilidadeNovoAgendamento: boolean = false;
   clientes: Array<CadastroUsuario> | undefined;
-  clienteSelecionado: CadastroUsuario | undefined;
   clientesFiltrados!: Array<CadastroUsuario>;
   formNovoAgendamento!: FormGroup;
 
@@ -241,7 +240,10 @@ export class AgendamentosComponent implements OnInit {
       console.log(this.formNovoAgendamento.value);
 
       //fazendo aqui
-      this.configurarCommand();
+      const agendamentoCommand: AgendamentoCommand =  this.configurarCommand();
+      console.log(agendamentoCommand);
+      debugger;
+      this.limparFormulario();
 
       this.visibilidadeNovoAgendamento = false;
     } else {
@@ -251,6 +253,11 @@ export class AgendamentosComponent implements OnInit {
         detail: "Há campos em branco",
       });
     }
+  }
+
+  private limparFormulario(){
+    this.formNovoAgendamento.reset();
+    this.formNovoAgendamento.markAllAsTouched();
   }
 
   private validarPreenchimentoCliente() {
@@ -269,20 +276,18 @@ export class AgendamentosComponent implements OnInit {
         summary: "Ops",
         detail: "Usuário inválido",
       });
-      this.clienteSelecionado = undefined;
       return;
     }
 
-    this.formNovoAgendamento.patchValue({
-      clienteSelecionado: clienteValido
-    });
+    this.formNovoAgendamento.get("clienteSelecionado")?.setValue(clienteValido);
+
   }
 
   private configurarCommand(): AgendamentoCommand {
     const servicosRepresentation: Array<ServicoRepresentation> =
       this.formNovoAgendamento.value.servicosSelecionado;
 
-      const idServicos = servicosRepresentation.map((servico)=> servico.id);
+    const idServicos = servicosRepresentation.map((servico) => servico.id);
 
     const agendamentoCommand: AgendamentoCommand = {
       dataHora: this.formNovoAgendamento.value.dataAgendamento,
@@ -292,7 +297,8 @@ export class AgendamentosComponent implements OnInit {
         statusPagamento: this.formNovoAgendamento.value.statusPagamento.name,
       },
       idFuncionario: localStorage.getItem("idFuncionario") ?? "",
-      idCliente: this.formNovoAgendamento.value.clienteSelecionado.usuario.objectId,
+      idCliente:
+        this.formNovoAgendamento.value.clienteSelecionado.usuario.objectId,
     };
 
     return agendamentoCommand;
