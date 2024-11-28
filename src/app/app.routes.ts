@@ -7,13 +7,14 @@ import { TestComponent } from "./modules/pages/test/test.component";
 import { homeResolver } from "./modules/pages/home/home-resolver";
 
 export const routes: Routes = [
-  { path: "", component: LoginComponent },
-  { path: "criar-conta", component: CadastrarUsuarioComponent },
+  { path: "", component: LoginComponent, title: 'Login' },
+  { path: "criar-conta", component: CadastrarUsuarioComponent, title: 'Criar conta' },
   {
     path: "inicio/:idUsuario",
     component: HomeComponent,
     resolve: { usuario: homeResolver },
+    title: 'Início'
   },
   { path: "test", component: TestComponent },
-  { path: "agendamentos", component: AgendamentosComponent },
+  { path: "agendamentos", component: AgendamentosComponent, title: 'Agendamentos' },
 ];
