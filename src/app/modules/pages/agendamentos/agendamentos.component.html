@@ -3,87 +3,57 @@
   <p-button icon="pi pi-arrow-left" (onClick)="voltar()" />
   <h1>Agendamentos</h1>
   <div class="buttons-text">
-    <p-button
-      label="Novo agendamento"
-      (onClick)="novoAgendamento()"
-      size="small"
-    />
+    <p-button label="Novo agendamento" (onClick)="novoAgendamento()" size="small" />
   </div>
 </header>
 
 <div class="container">
-  <p-table
-    class="tabela"
-    id="tabela"
-    [scrollable]="true"
-    scrollHeight="600px"
-    [value]="agendamentosRep"
-    [tableStyle]="{ 'min-width': '50rem' }"
-  >
+  <p-table class="tabela" id="tabela" [scrollable]="true" scrollHeight="600px" [value]="agendamentosRep"
+    [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header">
       <tr>
         <th>Cliente</th>
         <th>Data</th>
         <th>Funcionário</th>
         <th>Status</th>
+        <th>Pagamento</th>
         <th style="text-align: end">Serviços</th>
         <th style="text-align: end">Opções</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-agendamentoRep>
       <tr>
-        <td>{{ agendamentoRep.cliente.nome }}</td>
+        <td><p-button [label]="agendamentoRep.cliente.nome" [outlined]="true" pTooltip="Clique para detalhes do cliente"
+            [rounded]="true" /></td>
         <td>
           {{
-            agendamentoRep.agendamento.dataHora | date : "dd/MM/yyyy - HH:mm"
+          agendamentoRep.agendamento.dataHora | date : "dd/MM/yyyy - HH:mm"
           }}
         </td>
         <td>{{ agendamentoRep.funcionario.nome }}</td>
         <td>
-          <p-tag
-            [value]="agendamentoRep.agendamento.status"
-            [severity]="getStatusSeverity(agendamentoRep.agendamento.status)"
-          />
+          <p-tag [value]="agendamentoRep.agendamento.status"
+            [severity]="getStatusAgendamentoSeverity(agendamentoRep.agendamento.status)" />
+        </td>
+        <td>
+          <p-tag [value]="agendamentoRep.agendamento.pagamento.status"
+            [severity]="getStatusPagamentoSeverity(agendamentoRep.agendamento.pagamento.status)" />
         </td>
         <td style="text-align: end">
-          <button
-            type="button"
-            pButton
-            pRipple
-            icon="pi pi-plus"
-            (click)="showDialog(agendamentoRep.servicos)"
-          ></button>
+          <p-button type="button" icon="pi pi-eye" pTooltip="Detalhar serviços" 
+            (onClick)="showDialog(agendamentoRep.servicos)"/>
         </td>
         <td style="text-align: end">
-          <button
-            type="button"
-            pButton
-            pRipple
-            [outlined]="true"
-            severity="warning"
-            icon="pi pi-ellipsis-v"
-            (click)="showDialogOpcoes(agendamentoRep)"
-          ></button>
+          <button type="button" pButton pRipple [outlined]="true" severity="warning" icon="pi pi-ellipsis-v"
+            (click)="showDialogOpcoes(agendamentoRep)"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
-  <p-dialog
-    header="Serviços contratados"
-    [resizable]="false"
-    [modal]="true"
-    [maximizable]="true"
-    appendTo="body"
-    [(visible)]="dialogVisible"
-    [style]="{ width: '75vw' }"
-    [contentStyle]="{ height: '300px' }"
-  >
-    <p-table
-      [value]="servicosAgendados"
-      [scrollable]="true"
-      scrollHeight="flex"
-      [tableStyle]="{ 'min-width': '50rem' }"
-    >
+  <p-dialog header="Serviços contratados" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+    [(visible)]="dialogVisible" [style]="{ width: '75vw' }" [contentStyle]="{ height: '300px' }">
+    <p-table [value]="servicosAgendados" [scrollable]="true" scrollHeight="flex"
+      [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
@@ -106,105 +76,49 @@
       </ng-template>
     </p-table>
     <ng-template pTemplate="footer">
-      <button
-        type="button"
-        pButton
-        pRipple
-        icon="pi pi-times"
-        (click)="dialogVisible = false"
-        label="Voltar"
-        class="p-button-text"
-      ></button>
+      <button type="button" pButton pRipple icon="pi pi-times" (click)="dialogVisible = false" label="Voltar"
+        class="p-button-text"></button>
     </ng-template>
   </p-dialog>
 </div>
 
-<p-dialog
-  header="Novo agendamento"
-  [modal]="true"
-  [(visible)]="this.visibilidadeNovoAgendamento"
-  [style]="{ width: '35rem', heigth: '100%' }"
->
+<p-dialog header="Novo agendamento" [modal]="true" [(visible)]="this.visibilidadeNovoAgendamento"
+  [style]="{ width: '35rem', heigth: '100%' }">
   <form [formGroup]="formNovoAgendamento" (ngSubmit)="salvarAgendamento()">
     <div style="display: flex; flex-direction: column; gap: 1rem">
       <div style="display: flex; gap: 1rem">
         <p-inputGroup>
           <p-inputGroupAddon> <i class="pi pi-user"></i> </p-inputGroupAddon>
-          <p-autoComplete
-            formControlName="clienteSelecionado"
-            placeholder="Nome do cliente"
-            [dropdown]="true"
-            [inputStyle]="{ width: '80%' }"
-            [style]="{ width: '100%' }"
-            [suggestions]="clientesFiltrados"
-            [showClear]="true"
-            (completeMethod)="filterCountry($event)"
-            optionLabel="usuario.nome"
-          />
+          <p-autoComplete formControlName="clienteSelecionado" placeholder="Nome do cliente" [dropdown]="true"
+            [inputStyle]="{ width: '80%' }" [style]="{ width: '100%' }" [suggestions]="clientesFiltrados"
+            [showClear]="true" (completeMethod)="filterCountry($event)" optionLabel="usuario.nome" />
         </p-inputGroup>
-        <p-button
-          icon="pi pi-user-plus"
-          pTooltip="Criar usuário"
-          severity="success"
-        />
+        <p-button icon="pi pi-user-plus" pTooltip="Criar usuário" severity="success" />
       </div>
 
       <p-inputGroup>
         <p-inputGroupAddon> <i class="pi pi-gift"></i> </p-inputGroupAddon>
-        <p-calendar
-          [style]="{ width: '100%' }"
-          dateFormat="dd/mm/yy"
-          formControlName="dataAgendamento"
-          [showTime]="true"
-          [readonlyInput]="false"
-          placeholder="Data de agendamento"
-          inputId="birth_date"
-          [showIcon]="true"
-          [showOnFocus]="true"
-          [touchUI]="true"
-        />
+        <p-calendar [style]="{ width: '100%' }" dateFormat="dd/mm/yy" formControlName="dataAgendamento"
+          [showTime]="true" [readonlyInput]="false" placeholder="Data de agendamento" inputId="birth_date"
+          [showIcon]="true" [showOnFocus]="true" [touchUI]="true" />
       </p-inputGroup>
       <p-inputGroup>
         <p-inputGroupAddon> &#64; </p-inputGroupAddon>
-        <p-multiSelect
-          [style]="{ width: '100%' }"
-          [showToggleAll]="true"
-          [options]="servicos"
-          formControlName="servicosSelecionado"
-          optionLabel="nome"
-          scrollHeight="500px"
-          placeholder="Selecione os serviços"
-          [virtualScroll]="true"
-          [virtualScrollItemSize]="43"
-          class="multiselect-custom-virtual-scroll"
-        />
+        <p-multiSelect [style]="{ width: '100%' }" [showToggleAll]="true" [options]="servicos"
+          formControlName="servicosSelecionado" optionLabel="nome" scrollHeight="500px"
+          placeholder="Selecione os serviços" [virtualScroll]="true" [virtualScrollItemSize]="43"
+          class="multiselect-custom-virtual-scroll" />
       </p-inputGroup>
-      <div style="border-bottom: 0.5px solid rgb(206, 206, 206)"></div>
-      <h3>Dados de pagamento</h3>
-      <p-dropdown
-        [options]="metodosPagamentos"
-        formControlName="metodoPagamento"
-        [style]="{ width: '100%' }"
-        optionLabel="name"
-        placeholder="Selecione a forma de pagamento"
-      />
-      <p-dropdown
-        [options]="statusPagamentos"
-        formControlName="statusPagamento"
-        [style]="{ width: '100%' }"
-        optionLabel="name"
-        placeholder="Selecione o status de pagamento"
-      />
+      <div style="border-bottom: 0.5px solid rgb(206, 206, 206); margin-top: 1rem;"></div>
+      <h3 style="margin: 0 ;">Dados de pagamento</h3>
+      <p-dropdown [options]="metodosPagamentos" formControlName="metodoPagamento" [style]="{ width: '100%' }"
+        optionLabel="name" placeholder="Selecione a forma de pagamento" />
+      <p-dropdown [options]="statusPagamentos" formControlName="statusPagamento" [style]="{ width: '100%' }"
+        optionLabel="name" placeholder="Selecione o status de pagamento" />
     </div>
 
-    <div
-      style="margin-top: 15rem; display: flex; justify-content: end; gap: 2rem"
-    >
-      <p-button
-        label="Cancelar"
-        severity="secondary"
-        (onClick)="this.visibilidadeNovoAgendamento = false"
-      />
+    <div style="margin-top: 15rem; display: flex; justify-content: end; gap: 2rem">
+      <p-button label="Cancelar" severity="secondary" (onClick)="this.visibilidadeNovoAgendamento = false" />
       <p-button label="Salvar" type="submit" />
     </div>
   </form>

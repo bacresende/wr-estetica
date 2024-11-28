@@ -20,6 +20,7 @@ import { ToastModule } from "primeng/toast";
 import {
   AgendamentoCommand,
   AgendamentoService,
+  AgendamentoStatusCommand,
 } from "../../services/agendamento-service/agendamento.service";
 import { DialogModule } from "primeng/dialog";
 import { InputGroupModule } from "primeng/inputgroup";
@@ -102,7 +103,7 @@ export class AgendamentosComponent implements OnInit {
     private messageService: MessageService,
     private location: Location,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.obterAgendamentos();
@@ -190,14 +191,29 @@ export class AgendamentosComponent implements OnInit {
     });
   }
 
-  getStatusSeverity(status: string) {
+  public getStatusAgendamentoSeverity(status: string) {
     switch (status) {
       case "Ativo":
-        return "warning";
-      case "Finalizado":
         return "success";
+      case "Finalizado":
+        return "info";
       case "Cancelado":
+        return "warning";
+      case "Excluído":
         return "danger";
+    }
+
+    return "info";
+  }
+
+  public getStatusPagamentoSeverity(status: string) {
+    switch (status) {
+      case "Pago":
+        return "success";
+      case "Pendente":
+        return "danger";
+      case "Estornado":
+        return "info";
     }
 
     return "info";
@@ -213,19 +229,21 @@ export class AgendamentosComponent implements OnInit {
 
     Swal.fire({
       title: "O que deseja realizar com esse agendamento?",
-      showConfirmButton: false,
+      showConfirmButton: true,
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: "Atualizar",
+      confirmButtonText: "Finalizar agendamento",
       denyButtonText: `Excluir`,
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         //Atualizar
-        Swal.fire("Atualizado!", "", "success");
+        this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Finalizado');
+        Swal.fire("Agendamento Finalizado!", "", "success");
       } else if (result.isDenied) {
         //Deletar
-        Swal.fire("Agendamento excluído", "", "error");
+        this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Excluído');
+        Swal.fire("Agendamento excluído!", "", "error");
       }
     });
   }
@@ -240,12 +258,28 @@ export class AgendamentosComponent implements OnInit {
       console.log(this.formNovoAgendamento.value);
 
       //fazendo aqui
-      const agendamentoCommand: AgendamentoCommand =  this.configurarCommand();
-      console.log(agendamentoCommand);
-      debugger;
-      this.limparFormulario();
+      const agendamentoCommand = this.configurarCommand();
 
-      this.visibilidadeNovoAgendamento = false;
+      this.agendamentoService.novoAgendamento(agendamentoCommand).subscribe({
+        next: (novoAgendamento) => {
+          if (novoAgendamento) {
+            console.log(novoAgendamento);
+            this.obterAgendamentos();
+            this.limparFormulario();
+            this.visibilidadeNovoAgendamento = false;
+
+          }
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: "warn",
+            summary: "Ops",
+            detail: `${error}`,
+          });
+        },
+      });
+
+
     } else {
       this.messageService.add({
         severity: "warn",
@@ -255,7 +289,7 @@ export class AgendamentosComponent implements OnInit {
     }
   }
 
-  private limparFormulario(){
+  private limparFormulario() {
     this.formNovoAgendamento.reset();
     this.formNovoAgendamento.markAllAsTouched();
   }
@@ -276,9 +310,7 @@ export class AgendamentosComponent implements OnInit {
         summary: "Ops",
         detail: "Usuário inválido",
       });
-      return;
     }
-
     this.formNovoAgendamento.get("clienteSelecionado")?.setValue(clienteValido);
 
   }
@@ -290,7 +322,7 @@ export class AgendamentosComponent implements OnInit {
     const idServicos = servicosRepresentation.map((servico) => servico.id);
 
     const agendamentoCommand: AgendamentoCommand = {
-      dataHora: this.formNovoAgendamento.value.dataAgendamento,
+      dataHora: this.formNovoAgendamento.value.dataAgendamento.toISOString(),
       idServicos: idServicos,
       pagamento: {
         metodoPagamento: this.formNovoAgendamento.value.metodoPagamento.name,
@@ -302,6 +334,28 @@ export class AgendamentosComponent implements OnInit {
     };
 
     return agendamentoCommand;
+  }
+
+  private alterarStatusAgendamento(idAgendamento: string, status: string) {
+    const agendamentoStatusCommand: AgendamentoStatusCommand = {
+      idAgendamento,
+      status
+    }
+    this.agendamentoService.alterarStatusAgendamento(agendamentoStatusCommand).subscribe({
+      next: (agendamentoRes) => {
+        if (agendamentoRes) {
+          this.obterAgendamentos();
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Ops",
+          detail: `${error}`,
+        });
+      },
+    });
+
   }
 
   public voltar(): void {
