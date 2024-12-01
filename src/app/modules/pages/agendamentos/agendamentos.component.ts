@@ -7,43 +7,41 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { MessageService } from "primeng/api";
+import {
+  AutoCompleteCompleteEvent,
+  AutoCompleteModule,
+} from "primeng/autocomplete";
 import { ButtonModule } from "primeng/button";
+import { CalendarModule } from "primeng/calendar";
+import { DialogModule } from "primeng/dialog";
+import { DropdownModule } from "primeng/dropdown";
+import { InputGroupModule } from "primeng/inputgroup";
+import { InputGroupAddonModule } from "primeng/inputgroupaddon";
+import { InputMaskModule } from "primeng/inputmask";
+import { InputTextModule } from "primeng/inputtext";
+import { MultiSelectModule } from "primeng/multiselect";
 import { RatingModule } from "primeng/rating";
 import { RippleModule } from "primeng/ripple";
 import {
-  TableModule,
-  TableRowCollapseEvent,
-  TableRowExpandEvent,
+  TableModule
 } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
+import { TooltipModule } from "primeng/tooltip";
+import Swal from "sweetalert2";
+import { AgendamentoRepresentation } from "../../models/agendamento-representation.model";
+import { CadastroUsuario } from "../../models/cadastro-usuario.model";
+import { ServicoRepresentation } from "../../models/servico.model";
 import {
   AgendamentoCommand,
   AgendamentoService,
   AgendamentoStatusCommand,
 } from "../../services/agendamento-service/agendamento.service";
-import { DialogModule } from "primeng/dialog";
-import { InputGroupModule } from "primeng/inputgroup";
-import { InputGroupAddonModule } from "primeng/inputgroupaddon";
-import { InputTextModule } from "primeng/inputtext";
-import { CalendarModule } from "primeng/calendar";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputMaskModule } from "primeng/inputmask";
 import { ServicoService } from "../../services/servico/servico.service";
-import { MessageService } from "primeng/api";
-import { ServicoRepresentation as ServicoRepresentation } from "../../models/servico.model";
-import { AgendamentoRepresentation } from "../../models/agendamento-representation.model";
-import { RouterModule } from "@angular/router";
-import Swal from "sweetalert2";
-import {
-  AutoCompleteCompleteEvent,
-  AutoCompleteModule,
-} from "primeng/autocomplete";
-import { TooltipModule } from "primeng/tooltip";
 import { UsuarioService } from "../../services/usuario/usuario.service";
-import { CadastroUsuario } from "../../models/cadastro-usuario.model";
-import { FieldsetModule } from "primeng/fieldset";
-import { DropdownModule } from "primeng/dropdown";
+import { getStatusAgendamentoSeverity, getStatusPagamentoSeverity } from "../../../shared/obter-status";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-agendamentos",
@@ -102,13 +100,13 @@ export class AgendamentosComponent implements OnInit {
     private usuarioService: UsuarioService,
     private messageService: MessageService,
     private location: Location,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.obterAgendamentos();
-    this.obterClientes();
-    this.obterServicos();
+
     this.criarFormulario();
   }
 
@@ -192,31 +190,14 @@ export class AgendamentosComponent implements OnInit {
   }
 
   public getStatusAgendamentoSeverity(status: string) {
-    switch (status) {
-      case "Ativo":
-        return "success";
-      case "Finalizado":
-        return "info";
-      case "Cancelado":
-        return "warning";
-      case "Excluído":
-        return "danger";
-    }
 
-    return "info";
+    return getStatusAgendamentoSeverity(status);
+
   }
 
   public getStatusPagamentoSeverity(status: string) {
-    switch (status) {
-      case "Pago":
-        return "success";
-      case "Pendente":
-        return "danger";
-      case "Estornado":
-        return "info";
-    }
-
-    return "info";
+    
+    return getStatusPagamentoSeverity(status);
   }
 
   showDialog(servicos: Array<ServicoRepresentation>) {
@@ -234,7 +215,7 @@ export class AgendamentosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: "Finalizar agendamento",
       denyButtonText: `Excluir`,
-      cancelButtonText: "Cancelar",
+      cancelButtonText: "Voltar",
     }).then((result) => {
       if (result.isConfirmed) {
         //Atualizar
@@ -249,6 +230,8 @@ export class AgendamentosComponent implements OnInit {
   }
 
   public novoAgendamento() {
+    this.obterClientes();
+    this.obterServicos();
     this.visibilidadeNovoAgendamento = true;
   }
 
@@ -356,6 +339,10 @@ export class AgendamentosComponent implements OnInit {
       },
     });
 
+  }
+
+  public verUsuario(idUsuario: string){
+    this.router.navigate(['/usuario', idUsuario]);
   }
 
   public voltar(): void {

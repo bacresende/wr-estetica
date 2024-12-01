@@ -1,0 +1,40 @@
+<div class="tab">
+    <div class="row">
+        <div class="column">
+            <label for="">Nome:</label>
+            <span>{{usuario?.nome ?? '-'}}</span>
+        </div>
+
+        <div class="column">
+            <label for="">E-mail:</label>
+            <span>{{usuario?.email ?? '-'}}</span>
+        </div>
+        <div class="column">
+            <label for="">Telefone:</label>
+            <span>{{usuario?.telefone ?? '-'}}</span>
+        </div>
+        <div class="column">
+            <label for="">Data de nascimento:</label>
+            <span>{{usuario?.nasc ?? '-'}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <label for="">CPF:</label>
+            <span>{{usuario?.cpf ?? '-'}}</span>
+        </div>
+        <div class="column">
+            <label for="">Ocupação profissional:</label>
+            <span>{{usuario?.ocupacaoProfissional}}</span>
+        </div>
+        <div class="column">
+            <label for="">Tipo de cadastro:</label>
+            <span>{{usuario?.preCadastro ? 'Cadastrado parcialmente': 'Cadastro completo'}}</span>
+        </div>
+        <div class="column">
+            <label for="">Tipo de usuário:</label>
+            <span>{{usuario?.funcao ?? '-'}}</span>
+        </div>
+    </div>
+
+</div>

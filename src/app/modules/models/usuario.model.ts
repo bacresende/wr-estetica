@@ -6,6 +6,7 @@ export interface Usuario {
   senha: string;
   cpf: string;
   ocupacaoProfissional: string;
+  preCadastro?: boolean;
   funcao?: "ADM" | "CLIENTE" | "FUNC";
   objectId?: string;
 }

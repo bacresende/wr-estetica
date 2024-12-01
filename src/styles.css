@@ -20,6 +20,11 @@ body {
   height: 100%;
 }
 
+label {
+  color: var(--primary-color);
+  font-weight: bolder;
+}
+
 /* Exemplo de aplicação de tamanhos */
 body {
   margin: 0;

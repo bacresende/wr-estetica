@@ -1,0 +1,36 @@
+<p-toast />
+<header>
+    <p-button icon="pi pi-arrow-left" (onClick)="voltar()" />
+    <h1>Dados do cliente</h1>
+    <div>
+    </div>
+</header>
+<div class="container">
+    <section>
+        <p-card>
+            <p-tabView>
+                <p-tabPanel header="Informações">
+                    <app-info-gerais [usuario]="user?.usuario" />
+                </p-tabPanel>
+                <p-tabPanel header="Agendamentos">
+                    <app-agendamentos-usuario [idUsuario]="user?.usuario?.objectId"/>
+                    
+                </p-tabPanel>
+                <p-tabPanel header="Histórico" [disabled]="true" tooltip="Em desenvolvimento">
+                    <p>
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+                        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+                        provident, similique sunt in culpa
+                        qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
+                        facilis
+                        est
+                        et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
+                        impedit
+                        quo
+                        minus.
+                    </p>
+                </p-tabPanel>
+            </p-tabView>
+        </p-card>
+    </section>
+</div>

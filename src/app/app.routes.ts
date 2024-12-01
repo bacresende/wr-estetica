@@ -5,16 +5,43 @@ import { CadastrarUsuarioComponent } from "./modules/pages/cadastrar-usuario/cad
 import { HomeComponent } from "./modules/pages/home/home.component";
 import { TestComponent } from "./modules/pages/test/test.component";
 import { homeResolver } from "./modules/pages/home/home-resolver";
+import { UsuarioComponent } from "./modules/pages/usuario/usuario.component";
+import { usuarioResolver } from "./modules/pages/usuario/usuario.resolver";
 
 export const routes: Routes = [
-  { path: "", component: LoginComponent, title: 'Login' },
-  { path: "criar-conta", component: CadastrarUsuarioComponent, title: 'Criar conta' },
   {
+    title: 'Login',
+    path: "",
+    component: LoginComponent,
+  },
+  {
+    title: 'Criar conta',
+    path: "criar-conta",
+    component: CadastrarUsuarioComponent,
+  },
+  {
+    title: 'Início',
     path: "inicio/:idUsuario",
     component: HomeComponent,
-    resolve: { usuario: homeResolver },
-    title: 'Início'
+    resolve: {
+      usuario: homeResolver
+    },
   },
-  { path: "test", component: TestComponent },
-  { path: "agendamentos", component: AgendamentosComponent, title: 'Agendamentos' },
+  {
+    path: "test",
+    component: TestComponent
+  },
+  {
+    title: 'Agendamentos',
+    path: "agendamentos",
+    component: AgendamentosComponent,
+  },
+  {
+    title: 'Ver usuário',
+    path: "usuario/:idUsuario",
+    component: UsuarioComponent,
+    resolve: {
+      usuario: usuarioResolver
+    }
+  }
 ];

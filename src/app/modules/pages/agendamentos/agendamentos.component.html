@@ -23,8 +23,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-agendamentoRep>
       <tr>
-        <td><p-button [label]="agendamentoRep.cliente.nome" [outlined]="true" pTooltip="Clique para detalhes do cliente"
-            [rounded]="true" /></td>
+        <td>
+          <p-button [label]="agendamentoRep.cliente.nome" [outlined]="true" pTooltip="Clique para detalhes do cliente"
+            [rounded]="true" (onClick)="verUsuario(agendamentoRep.cliente.objectId)" />
+        </td>
         <td>
           {{
           agendamentoRep.agendamento.dataHora | date : "dd/MM/yyyy - HH:mm"
@@ -40,8 +42,8 @@
             [severity]="getStatusPagamentoSeverity(agendamentoRep.agendamento.pagamento.status)" />
         </td>
         <td style="text-align: end">
-          <p-button type="button" icon="pi pi-eye" pTooltip="Detalhar serviços" 
-            (onClick)="showDialog(agendamentoRep.servicos)"/>
+          <p-button type="button" icon="pi pi-eye" pTooltip="Detalhar serviços"
+            (onClick)="showDialog(agendamentoRep.servicos)" />
         </td>
         <td style="text-align: end">
           <button type="button" pButton pRipple [outlined]="true" severity="warning" icon="pi pi-ellipsis-v"

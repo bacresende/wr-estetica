@@ -1,0 +1,76 @@
+<p-toast/>
+<p-card>
+    <div class="container">
+        <p-table class="tabela" id="tabela" [scrollable]="true" scrollHeight="600px" [value]="agendamentosRep"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Funcionário</th>
+                    <th>Status</th>
+                    <th>Pagamento</th>
+                    <th style="text-align: end">Serviços</th>
+                    <th style="text-align: end">Opções</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-agendamentoRep>
+                <tr>
+                    <td>{{agendamentoRep.cliente.nome}}</td>
+                    <td>
+                        {{
+                        agendamentoRep.agendamento.dataHora | date : "dd/MM/yyyy - HH:mm"
+                        }}
+                    </td>
+                    <td>{{ agendamentoRep.funcionario.nome }}</td>
+                    <td>
+                        <p-tag [value]="agendamentoRep.agendamento.status"
+                            [severity]="getStatusAgendamentoSeverity(agendamentoRep.agendamento.status)" />
+                    </td>
+                    <td>
+                        <p-tag [value]="agendamentoRep.agendamento.pagamento.status"
+                            [severity]="getStatusPagamentoSeverity(agendamentoRep.agendamento.pagamento.status)" />
+                    </td>
+                    <td style="text-align: end">
+                        <p-button type="button" icon="pi pi-eye" pTooltip="Detalhar serviços"
+                            (onClick)="showDialog(agendamentoRep.servicos)" />
+                    </td>
+                    <td style="text-align: end">
+                        <button type="button" pButton pRipple [outlined]="true" severity="warning"
+                            icon="pi pi-ellipsis-v" (click)="showDialogOpcoes(agendamentoRep)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <p-dialog header="Serviços contratados" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+            [(visible)]="dialogVisible" [style]="{ width: '75vw' }" [contentStyle]="{ height: '300px' }">
+            <p-table [value]="servicosAgendados" [scrollable]="true" scrollHeight="flex"
+                [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-servico>
+                    <tr>
+                        <td>
+                            {{ servico.nome }}
+                        </td>
+                        <td>
+                            {{ servico.descricao }}
+                        </td>
+                        <td>
+                            {{ servico.valor | currency : "BRL" : "symbol" : "1.2-2" }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <ng-template pTemplate="footer">
+                <button type="button" pButton pRipple icon="pi pi-times" (click)="dialogVisible = false" label="Voltar"
+                    class="p-button-text"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</p-card>

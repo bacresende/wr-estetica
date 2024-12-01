@@ -56,6 +56,27 @@ export class AgendamentoService {
       );
   }
 
+  public obterAgendamentosUsuario(idCliente: string): Observable<Array<AgendamentoRepresentation>> {
+    return this.httpClient
+      .post<Array<AgendamentoRepresentation>>(
+        `${this.apiUrl}/obter-agendamentos-usuario`,
+        {idCliente},
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(
+        map((resultAgendamentos: any) => {
+          return resultAgendamentos.result;
+        }),
+        catchError((e) => {
+          let msg = e.error.error;
+
+          return throwError(() => new Error(msg));
+        })
+      );
+  }
+
   public novoAgendamento(agendamentoCommand: AgendamentoCommand): Observable<AgendamentoReponseRepresentation> {
     return this.httpClient
       .post<AgendamentoReponseRepresentation>(
