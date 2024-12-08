@@ -10,19 +10,12 @@ import { ServicoRepresentation } from "../../models/servico.model";
 export class ServicoService {
   private apiUrl = environment.apiUrl;
 
-  private headers = new HttpHeaders({
-    "Content-Type": "application/json",
-    "X-Parse-Application-Id": environment.appId,
-    "X-Parse-REST-API-Key": environment.apiKey,
-  });
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   public obterServicos(): Observable<Array<ServicoRepresentation>> {
     return this.httpClient
-      .post<Array<ServicoRepresentation>>(`${this.apiUrl}/obter-servicos`, null, {
-        headers: this.headers,
-      })
+      .post<Array<ServicoRepresentation>>(`${this.apiUrl}/obter-servicos`, null)
       .pipe(
         map((resultServicos: any) => {
           return resultServicos.result;

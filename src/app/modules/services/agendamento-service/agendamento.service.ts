@@ -27,11 +27,6 @@ export interface AgendamentoStatusCommand{
 export class AgendamentoService {
   private apiUrl = environment.apiUrl;
 
-  private headers = new HttpHeaders({
-    "Content-Type": "application/json",
-    "X-Parse-Application-Id": environment.appId,
-    "X-Parse-REST-API-Key": environment.apiKey,
-  });
 
   constructor(private httpClient: HttpClient) { }
 
@@ -39,10 +34,7 @@ export class AgendamentoService {
     return this.httpClient
       .post<Array<AgendamentoRepresentation>>(
         `${this.apiUrl}/obter-agendamentos`,
-        null,
-        {
-          headers: this.headers,
-        }
+        null
       )
       .pipe(
         map((resultAgendamentos: any) => {
@@ -60,10 +52,7 @@ export class AgendamentoService {
     return this.httpClient
       .post<Array<AgendamentoRepresentation>>(
         `${this.apiUrl}/obter-agendamentos-usuario`,
-        {idCliente},
-        {
-          headers: this.headers,
-        }
+        {idCliente}
       )
       .pipe(
         map((resultAgendamentos: any) => {
@@ -81,10 +70,7 @@ export class AgendamentoService {
     return this.httpClient
       .post<AgendamentoReponseRepresentation>(
         `${this.apiUrl}/novo-agendamento`,
-        agendamentoCommand,
-        {
-          headers: this.headers,
-        }
+        agendamentoCommand
       )
       .pipe(
         map((resultNovoAgendamento: any) => {
@@ -102,10 +88,7 @@ export class AgendamentoService {
     return this.httpClient
       .post<AgendamentoReponseRepresentation>(
         `${this.apiUrl}/alterar-status-agendamento`,
-        agendamentoStatusCommand,
-        {
-          headers: this.headers,
-        }
+        agendamentoStatusCommand
       )
       .pipe(
         map((resultNovoAgendamento: any) => {

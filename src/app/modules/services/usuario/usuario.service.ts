@@ -10,25 +10,15 @@ import { environment } from "../../../../environments/environment";
 export class UsuarioService {
   private apiUrl = environment.apiUrl;
 
-  private headers = new HttpHeaders({
-    "Content-Type": "application/json",
-    "X-Parse-Application-Id": environment.appId,
-    "X-Parse-REST-API-Key": environment.apiKey,
-  });
 
-  constructor(private readonly httpClient: HttpClient) {}
+
+  constructor(private readonly httpClient: HttpClient) { }
 
   public cadastrarUsuario(cadastroUsuario: CadastroUsuario): Observable<any> {
-    const headers = new HttpHeaders({
-      "Content-Type": "application/json",
-      "X-Parse-Application-Id": environment.appId,
-      "X-Parse-REST-API-Key": environment.apiKey,
-    });
+
 
     return this.httpClient
-      .post<any>(`${this.apiUrl}/cadastrar-usuario`, cadastroUsuario, {
-        headers,
-      })
+      .post<any>(`${this.apiUrl}/cadastrar-usuario`, cadastroUsuario)
       .pipe(
         map((resultCadrasto) => {
           return resultCadrasto.result;
@@ -48,10 +38,8 @@ export class UsuarioService {
     return this.httpClient
       .post<any>(
         `${this.apiUrl}/login`,
-        { email, senha },
-        {
-          headers: this.headers,
-        }
+        { email, senha }
+
       )
       .pipe(
         map((resultCadrasto) => {
@@ -71,8 +59,7 @@ export class UsuarioService {
     return this.httpClient
       .post<CadastroUsuario>(
         `${this.apiUrl}/obter-usuario`,
-        { idUsuario },
-        { headers: this.headers }
+        { idUsuario }
       )
       .pipe(
         map((resultUsuario: any) => {
@@ -80,7 +67,7 @@ export class UsuarioService {
         }),
         catchError((e) => {
           let msg = e.error.error;
-          
+
           return throwError(() => new Error(msg));
         })
       );
@@ -90,8 +77,7 @@ export class UsuarioService {
     return this.httpClient
       .post<Array<CadastroUsuario>>(
         `${this.apiUrl}/obter-clientes`,
-        null,
-        { headers: this.headers }
+        null
       )
       .pipe(
         map((resultUsuario: any) => {
@@ -99,7 +85,7 @@ export class UsuarioService {
         }),
         catchError((e) => {
           let msg = e.error.error;
-          
+
           return throwError(() => new Error(msg));
         })
       );
@@ -109,8 +95,7 @@ export class UsuarioService {
     return this.httpClient
       .post<CadastroUsuario>(
         `${this.apiUrl}/obter-usuario-e-endereco`,
-        { idUsuario },
-        { headers: this.headers }
+        { idUsuario }
       )
       .pipe(
         map((resultUsuarioAndEndereco: any) => {
@@ -118,7 +103,7 @@ export class UsuarioService {
         }),
         catchError((e) => {
           let msg = e.error.error;
-          
+
           return throwError(() => new Error(msg));
         })
       );
