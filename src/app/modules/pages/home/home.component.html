@@ -14,7 +14,9 @@
     <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
   </div>
 </header>
-
+<div style="width: 100%; height: 100dvh; display: flex; justify-content: center; align-items: center; text-align: center;" >
+  <h1 style="color: var(--primary-color); font-size: 1.5rem;">A tela inicial está sendo construída</h1>
+</div>
 <!-- <div class="dashboard-container">
   
   <p-card header="Vendas Mensais" class="charts">
@@ -48,6 +50,4 @@
   </div>
 </div> -->
 
-<app-card-novo-usuario 
-  [visibilidadeNovoCliente]="visibilidadeNovoCliente"
-  (emitirVisibilidade)="fecharModal($event)" />
+<app-card-novo-usuario [visibilidadeNovoCliente]="visibilidadeNovoCliente" (emitirVisibilidade)="fecharModal($event)" />
