@@ -13,7 +13,7 @@
             </div>
             <p-tabView>
                 <p-tabPanel header="Informações">
-                    <app-info-gerais [usuario]="user?.usuario" />
+                    <app-info-gerais [usuarioRep]="user" />
                 </p-tabPanel>
                 <p-tabPanel header="Agendamentos">
                     <app-agendamentos-usuario [idUsuario]="user?.usuario?.objectId"/>

@@ -1,40 +1,83 @@
-<div class="tab">
-    <div class="row">
-        <div class="column">
-            <label for="">Nome:</label>
-            <span>{{usuario?.nome ?? '-'}}</span>
-        </div>
+<div class="container-bs">
+    <p-fieldset legend="Dados usuário" [toggleable]="true" [style]="{'margin-bottom': '3rem'}">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Nome:</label>
+                <span>{{usuarioRep?.usuario?.nome ?? '-'}}</span>
+            </div>
 
-        <div class="column">
-            <label for="">E-mail:</label>
-            <span>{{usuario?.email ?? '-'}}</span>
-        </div>
-        <div class="column">
-            <label for="">Telefone:</label>
-            <span>{{usuario?.telefone ?? '-'}}</span>
-        </div>
-        <div class="column">
-            <label for="">Data de nascimento:</label>
-            <span>{{usuario?.nasc ?? '-'}}</span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <label for="">CPF:</label>
-            <span>{{usuario?.cpf ?? '-'}}</span>
-        </div>
-        <div class="column">
-            <label for="">Ocupação profissional:</label>
-            <span>{{usuario?.ocupacaoProfissional ?? '-'}}</span>
-        </div>
-        <div class="column">
-            <label for="">Tipo de cadastro:</label>
-            <span>{{usuario?.preCadastro ? 'Cadastrado parcialmente': 'Cadastro completo'}}</span>
-        </div>
-        <div class="column">
-            <label for="">Tipo de usuário:</label>
-            <span>{{usuario?.funcao ?? '-'}}</span>
-        </div>
-    </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">E-mail:</label>
+                <span>{{usuarioRep?.usuario?.email ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Telefone:</label>
+                <span>{{usuarioRep?.usuario?.telefone ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Data de nascimento:</label>
+                <span>{{usuarioRep?.usuario?.nasc ?? '-'}}</span>
+            </div>
 
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">CPF:</label>
+                <span>{{usuarioRep?.usuario?.cpf ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Ocupação profissional:</label>
+                <span>{{usuarioRep?.usuario?.ocupacaoProfissional ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Tipo de cadastro:</label>
+                <span>{{usuarioRep?.usuario?.preCadastro ? 'Cadastrado parcialmente': 'Cadastro completo'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Tipo de usuário:</label>
+                <span>{{getStatusFuncaoPorExtenso(usuarioRep?.usuario?.funcao ?? '-')}}</span>
+            </div>
+        </div>
+    </p-fieldset>
+
+    <!-- <p-fieldset legend="Endereço"  [toggleable]="true" *ngIf="!usuarioRep?.usuario?.preCadastro">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Endereço:</label>
+                <span>{{usuarioRep?.usuario?.nome ?? '-'}}</span>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Número residencial:</label>
+                <span>{{usuarioRep?.usuario?.email ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Bairro:</label>
+                <span>{{usuarioRep?.usuario?.telefone ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Complemento:</label>
+                <span>{{usuarioRep?.usuario?.nasc ?? '-'}}</span>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Cidade:</label>
+                <span>{{usuarioRep?.usuario?.cpf ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Estado:</label>
+                <span>{{usuarioRep?.usuario?.ocupacaoProfissional ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">Tipo de cadastro:</label>
+                <span>{{usuarioRep?.usuario?.preCadastro ? 'Cadastrado parcialmente': 'Cadastro completo'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">País:</label>
+                <span>{{usuarioRep?.usuario?.funcao ?? '-'}}</span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label for="">CEP:</label>
+                <span>{{usuarioRep?.usuario?.funcao ?? '-'}}</span>
+            </div>
+        </div>
+    </p-fieldset> -->
 </div>
