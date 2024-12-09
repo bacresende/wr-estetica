@@ -38,3 +38,16 @@ export function getStatusAgendamentoSeverity(status: string) {
 
     return "info";
   }
+
+  export function getStatusFuncaoPorExtenso(status: string) {
+    switch (status) {
+      case "CLIENTE":
+        return "Cliente";
+      case "ADM":
+        return "Administrador";
+      case "FUNC":
+        return "Funcionário";
+    }
+
+    return "Cliente";
+  }

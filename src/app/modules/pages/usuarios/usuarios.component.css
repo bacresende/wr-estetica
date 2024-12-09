@@ -1,35 +1,42 @@
 header {
     background-color: white;
     border-bottom: 1px solid var(--primary-color);
-  
+
     width: 100%;
     display: flex;
     padding: 0.5rem 1rem;
     justify-content: space-between;
-  }
-  
-  header h1 {
+}
+
+header h1 {
     font-size: 1rem;
     font-family: "Helvetica";
     color: var(--primary-color);
-  }
-  
-  header .buttons-text {
+}
+
+header .buttons-text {
     display: flex;
     gap: 5px;
-  }
+}
 
-  .container {
+.container {
     display: flex;
     width: 100%;
     justify-content: center;
-  }
-  
-  .tabela {
+}
+
+.tabela {
     margin: 2rem 0;
     width: 90%;
-  }
+}
 
-  .no-wrap {
+.no-wrap {
     white-space: nowrap;
-  }
+}
+
+.input {
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--primary-color);
+    box-shadow: 2px 2px 5px rgba(182, 182, 182, 0.5);
+}

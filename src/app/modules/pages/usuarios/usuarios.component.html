@@ -7,10 +7,25 @@
 </header>
 
 <div class="container">
-    <p-table class="tabela" id="tabela" [scrollable]="true" scrollHeight="800px" [value]="usuarios"
-        [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table class="tabela" #dt2 [value]="usuarios" dataKey="id" scrollHeight="650px" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading" [paginator]="true"
+        [globalFilterFields]="['usuario.nome', 'usuario.createdAt', 'usuario.email', 'usuario.funcao', 'usuario.nasc', 'usuario.cpf', 'usuario.ocupacaoProfissional', 'usuario.preCadastro', 'usuario.telefone'  ]"
+        [tableStyle]="{ 'min-width': '75rem' }">
+        <ng-template pTemplate="caption">
+            <div style="display: flex; justify-content: end;">
+                <p-iconField iconPosition="right" style="margin-left: auto; ">
+                        <p-inputIcon>
+                            <i class="pi pi-search" style="color: var(--primary-color);"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text"
+                            class="input"
+                            (input)="filterTable($event)" placeholder="Buscar usuário" />
+                    </p-iconField>
+            </div>
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
+
                 <th>Nome</th>
                 <th>Criado em</th>
                 <th>E-mail</th>
@@ -23,12 +38,14 @@
 
                 <th style="text-align: end">Opções</th>
             </tr>
+
         </ng-template>
         <ng-template pTemplate="body" let-usuarioRep>
             <tr>
                 <td class="no-wrap">
-                    <p-button [label]="usuarioRep.usuario.nome" [outlined]="true" [style]="{fontSize: '14px', padding: '6px'}"
-                        pTooltip="Clique para detalhes do cliente" [rounded]="true" (onClick)="verUsuario(usuarioRep.usuario.objectId)"  />
+                    <p-button [label]="usuarioRep.usuario.nome" [outlined]="true"
+                        [style]="{fontSize: '14px', padding: '6px'}" pTooltip="Clique para detalhes do cliente"
+                        [rounded]="true" (onClick)="verUsuario(usuarioRep.usuario.objectId)" />
                 </td>
                 <td class="no-wrap">
                     {{
@@ -37,9 +54,9 @@
                 </td>
                 <td>{{ usuarioRep.usuario.email }}</td>
 
-                <td>
-                    <p-tag [value]="usuarioRep.usuario.funcao" 
-                        pTooltip="Clique para ajutar função" [severity]="getStatusFuncaoSeverity(usuarioRep.usuario.funcao)" />
+                <td (click)="alterarFuncao(usuarioRep )">
+                    <p-tag [value]="getStatusFuncaoPorExtenso(usuarioRep.usuario.funcao)" pTooltip="Clique para alterar a função"
+                        [severity]="getStatusFuncaoSeverity(usuarioRep.usuario.funcao)" />
                 </td>
 
 
@@ -56,8 +73,15 @@
                 </td>
             </tr>
         </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No customers found.</td>
+            </tr>
+        </ng-template>
     </p-table>
-
 </div>
+
+
+
 
 <app-card-novo-usuario [visibilidadeNovoCliente]="visibilidadeNovoCliente" (emitirVisibilidade)="fecharModal($event)" />

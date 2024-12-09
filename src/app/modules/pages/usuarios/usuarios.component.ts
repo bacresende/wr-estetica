@@ -1,19 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { CadastroUsuario } from '../../models/cadastro-usuario.model';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule, DatePipe, Location } from '@angular/common';
 import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-usuario/card-novo-usuario.component";
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { RippleModule } from 'primeng/ripple';
 import { TagModule } from 'primeng/tag';
-import { getStatusAgendamentoSeverity, getStatusFuncaoSeverity, getStatusPagamentoSeverity } from '../../../shared/obter-status';
+import { getStatusAgendamentoSeverity, getStatusFuncaoPorExtenso, getStatusFuncaoSeverity, getStatusPagamentoSeverity } from '../../../shared/obter-status';
 import Swal from 'sweetalert2';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
+import { CardModule } from 'primeng/card';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [ButtonModule, CardNovoUsuarioComponent, TableModule, CommonModule, TagModule],
+  imports: [
+    ButtonModule, 
+    CardNovoUsuarioComponent, 
+    TableModule, 
+    CommonModule, 
+    TagModule,
+    IconFieldModule,
+    InputIconModule,
+    MultiSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    TooltipModule
+    
+  ],
   providers: [DatePipe],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
@@ -22,6 +43,16 @@ export class UsuariosComponent implements OnInit{
 
   public usuarios: any | undefined;
   public visibilidadeNovoCliente: boolean = false;
+  public loading: boolean = true;
+
+  @ViewChild('dt2')
+  dt2!: Table;
+
+  statuses!: any[];
+
+
+    activityValues: number[] = [0, 100];
+    representatives!: any[];
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -29,14 +60,73 @@ export class UsuariosComponent implements OnInit{
     private readonly router: Router
 
   ){}
+
+  filterTable(event: Event){
+    const input = event.target as HTMLInputElement
+    const value = input.value;
+    this.dt2.filterGlobal(value, 'contains')
+  }
   ngOnInit(): void {
     this.usuarios = this.route.snapshot.data['usuarios'];
     console.log(this.usuarios);
+    this.loading = false;
+
+    this.representatives = [
+      { name: 'Amy Elsner', image: 'amyelsner.png' },
+      { name: 'Anna Fali', image: 'annafali.png' },
+      { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
+      { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
+      { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
+      { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
+      { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
+      { name: 'Onyama Limba', image: 'onyamalimba.png' },
+      { name: 'Stephen Shaw', image: 'stephenshaw.png' },
+      { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
+  ];
+
+  this.statuses = [
+      { label: 'Unqualified', value: 'unqualified' },
+      { label: 'Qualified', value: 'qualified' },
+      { label: 'New', value: 'new' },
+      { label: 'Negotiation', value: 'negotiation' },
+      { label: 'Renewal', value: 'renewal' },
+      { label: 'Proposal', value: 'proposal' }
+  ];
   }
 
   public getStatusFuncaoSeverity(status: string) {
     
     return getStatusFuncaoSeverity(status);
+  }
+
+  public alterarFuncao(usuarioRep: CadastroUsuario){
+    console.log('alterado ' + usuarioRep.usuario.objectId);
+    let funcoes: Array<string> = ['ADM', 'CLIENTE', 'FUNC']
+    
+    funcoes = funcoes.filter((funcao)=> funcao !== usuarioRep.usuario.funcao);
+    
+
+    Swal.fire({
+      title: `<p>Qual função deseja inserir para o usuário ${usuarioRep.usuario.nome}?</p>`,   
+       
+      showConfirmButton: true,
+      showDenyButton: true,
+      denyButtonColor: 'green',
+      showCancelButton: true,
+      confirmButtonText: this.getStatusFuncaoPorExtenso(funcoes[0]),
+      denyButtonText: this.getStatusFuncaoPorExtenso(funcoes[1]),
+      cancelButtonText: "Voltar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //Atualizar
+        //this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Finalizado');
+        Swal.fire(`Usuário alterado para ${this.getStatusFuncaoPorExtenso(funcoes[0])}`, "", "success");
+      } else if (result.isDenied) {
+        //Deletar
+        //this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Excluído');
+        Swal.fire(`Usuário alterado para ${this.getStatusFuncaoPorExtenso(funcoes[1])}`, "", "success");
+      }
+    });
   }
 
   public voltar(): void {
@@ -80,5 +170,15 @@ export class UsuariosComponent implements OnInit{
       }
     });
   }
+
+
+    clear(table: Table) {
+        table.clear();
+    }
+
+   public getStatusFuncaoPorExtenso(status: string) {
+        return getStatusFuncaoPorExtenso(status);
+    }
+
 
 }
