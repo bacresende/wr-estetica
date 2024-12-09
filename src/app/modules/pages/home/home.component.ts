@@ -1,28 +1,31 @@
-import { Component, OnInit } from "@angular/core";
-import { environment } from "../../../../environments/environment";
-import Swal from "sweetalert2";
-import { TableModule } from "primeng/table";
-import { ChartModule } from "primeng/chart";
-import { CardModule } from "primeng/card";
 import { CommonModule } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MenuItem, MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { MenuModule } from "primeng/menu";
+import { TableModule } from "primeng/table";
 import { TagModule } from "primeng/tag";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ToastModule } from "primeng/toast";
+import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-usuario/card-novo-usuario.component";
 import { CadastroUsuario } from "../../models/cadastro-usuario.model";
+import { CadastroUsuarioParcialCommand, UsuarioService } from "../../services/usuario/usuario.service";
 
 @Component({
   selector: "app-home",
   standalone: true,
   imports: [
     CommonModule,
-    CardModule,
-    ChartModule,
     TableModule,
     ButtonModule,
     MenuModule,
     TagModule,
-  ],
+    
+    ToastModule,
+    CardNovoUsuarioComponent
+],
+  providers: [MessageService],
   templateUrl: "./home.component.html",
   styleUrl: "./home.component.css",
 })
@@ -31,14 +34,48 @@ export class HomeComponent implements OnInit {
   orders!: any[];
   transactions!: any[];
   public usuario!: CadastroUsuario;
+  public visibilidadeNovoCliente: boolean = false;
+
+  public menuItems: MenuItem[] = [
+    {
+      label: "Ver usuários",
+      icon: "pi pi-user",
+      command: () => this.verUsuarios(),
+    },
+    {
+      label: "Agendamento",
+      icon: "pi pi-calendar-clock",
+      command: () => this.agendamentos(),
+    },
+    {
+      label: "Cadastrar cliente",
+      icon: "pi pi-user-plus",
+      command: () => this.cadastrarCliente(),
+    },
+    {
+      label: "Formulários",
+      icon: "pi pi-align-justify",
+      command: () => null,
+      disabled: true,
+      
+    },
+    { label: "Sair", icon: "pi pi-sign-out", command: () => this.finalizarSessao() },
+  ];
+  
 
   constructor(
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    
+
   ) {}
 
   ngOnInit(): void {
     this.usuario = this.route.snapshot.data["usuario"];
+
+    
+
     
 
     // Swal.fire({
@@ -84,28 +121,29 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  menuItems = [
-    {
-      label: "Agendamento",
-      icon: "pi pi-pencil",
-      command: () => this.agendamentos(),
-    },
-    {
-      label: "Cadastrar cliente",
-      icon: "pi pi-trash",
-      command: () => this.agendamentos(),
-    },
-    {
-      label: "Formulários",
-      icon: "pi pi-info",
-      command: () => this.agendamentos(),
-    },
-    { label: "Sair", icon: "pi pi-info", command: () => this.agendamentos() },
-  ];
+  
 
+  
+
+  public verUsuarios() {
+    this.router.navigate(["/usuarios"]);
+  }
+  
   public agendamentos() {
     this.router.navigate(["/agendamentos"]);
   }
+
+  public cadastrarCliente(){
+    console.log('entrou');
+    this.visibilidadeNovoCliente = true;
+  }
+
+  public fecharModal(visibilidade: boolean){
+    console.log(`Event de fechar modal: ${visibilidade}`)
+    this.visibilidadeNovoCliente = visibilidade;
+  }
+
+  
 
   public finalizarSessao() {
     this.router.navigate(['']);

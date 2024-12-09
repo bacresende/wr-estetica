@@ -42,6 +42,7 @@ import { ServicoService } from "../../services/servico/servico.service";
 import { UsuarioService } from "../../services/usuario/usuario.service";
 import { getStatusAgendamentoSeverity, getStatusPagamentoSeverity } from "../../../shared/obter-status";
 import { Router } from "@angular/router";
+import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-usuario/card-novo-usuario.component";
 
 @Component({
   selector: "app-agendamentos",
@@ -66,7 +67,8 @@ import { Router } from "@angular/router";
     InputMaskModule,
     AutoCompleteModule,
     DropdownModule,
-  ],
+    CardNovoUsuarioComponent
+],
   providers: [MessageService, DatePipe],
   templateUrl: "./agendamentos.component.html",
   styleUrl: "./agendamentos.component.css",
@@ -78,8 +80,9 @@ export class AgendamentosComponent implements OnInit {
   public servicos: Array<ServicoRepresentation> = [];
   public visibilidadeNovoAgendamento: boolean = false;
   clientes: Array<CadastroUsuario> | undefined;
-  clientesFiltrados!: Array<CadastroUsuario>;
-  formNovoAgendamento!: FormGroup;
+  public clientesFiltrados!: Array<CadastroUsuario>;
+  public formNovoAgendamento!: FormGroup;
+  public visibilidadeNovoCliente: boolean = false;
 
   public metodosPagamentos = [
     { name: "Pix", code: "PIX" },
@@ -205,11 +208,11 @@ export class AgendamentosComponent implements OnInit {
     this.servicosAgendados = servicos;
   }
 
-  showDialogOpcoes(agendamentoRep: AgendamentoRepresentation) {
+  public showDialogOpcoes(agendamentoRep: AgendamentoRepresentation) {
     console.log(agendamentoRep);
 
     Swal.fire({
-      title: "O que deseja realizar com esse agendamento?",
+      title: "<p>O que deseja realizar com esse agendamento?</p>",    
       showConfirmButton: true,
       showDenyButton: true,
       showCancelButton: true,
@@ -235,12 +238,23 @@ export class AgendamentosComponent implements OnInit {
     this.visibilidadeNovoAgendamento = true;
   }
 
+  public cadastrarCliente(){
+    console.log('entrou');
+    this.visibilidadeNovoCliente = true;
+  }
+
+  public fecharModalNovoCliente(visibilidade: boolean){
+    console.log(`Event de fechar modal: ${visibilidade}`)
+    this.obterClientes();
+    this.visibilidadeNovoCliente = visibilidade;
+
+  }
+
   public salvarAgendamento() {
     this.validarPreenchimentoCliente();
     if (this.formNovoAgendamento.valid) {
       console.log(this.formNovoAgendamento.value);
 
-      //fazendo aqui
       const agendamentoCommand = this.configurarCommand();
 
       this.agendamentoService.novoAgendamento(agendamentoCommand).subscribe({
@@ -250,6 +264,12 @@ export class AgendamentosComponent implements OnInit {
             this.obterAgendamentos();
             this.limparFormulario();
             this.visibilidadeNovoAgendamento = false;
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Oba!",
+              detail: `Agendamento criado!`,
+            });
 
           }
         },

@@ -14,7 +14,6 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(reqClone).pipe(
     shareReplay(),
-    retry({ count: 2, delay: 2000 }),
     catchError((error: HttpErrorResponse) => {
       if (error.status === 0) {
         alert('Sem conxão com a internet');

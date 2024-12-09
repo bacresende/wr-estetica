@@ -1,15 +1,12 @@
+<p-toast />
 <header>
   <h1>Olá, {{ usuario.usuario.nome }}</h1>
   <div class="buttons-text">
+    <p-button label="Ver clientes" (onClick)="verUsuarios()" size="small" />
     <p-button label="Agendamentos" (onClick)="agendamentos()" size="small" />
-    <p-button label="Cadastrar cliente" size="small" />
-    <p-button label="Formulários" size="small" />
-    <p-button
-      (onClick)="finalizarSessao()"
-      label="Sair"
-      [style]="{ color: 'red' }"
-      [link]="true"
-    />
+    <p-button label="Cadastrar cliente" size="small" (onClick)="cadastrarCliente()" />
+    <p-button label="Formulários" size="small" [disabled]="true" badge="Breve" />
+    <p-button (onClick)="finalizarSessao()" label="Sair" [style]="{ color: 'red' }" [link]="true" />
   </div>
 
   <div class="buttons-icon">
@@ -18,16 +15,14 @@
   </div>
 </header>
 
-<div class="dashboard-container">
-  <!-- Cards de Visão Geral -->
-
-  <!-- Gráficos -->
+<!-- <div class="dashboard-container">
+  
   <p-card header="Vendas Mensais" class="charts">
     <p-chart type="line" [data]="lineChartData"></p-chart>
   </p-card>
 
   <div class="data-table">
-    <p-card header="Agendamentos Recentes" >
+    <p-card header="Agendamentos Recentes">
       <p-table [value]="transactions" responsiveLayout="scroll">
         <ng-template pTemplate="header">
           <tr>
@@ -45,13 +40,14 @@
             <td>{{ transaction.date }}</td>
             <td>{{ transaction.amount | currency }}</td>
             <td>{{ transaction.status }}</td>
-            <p-tag
-              [value]="transaction.status"
-              [severity]="getSeverity(transaction.status)"
-            />
+            <p-tag [value]="transaction.status" [severity]="getSeverity(transaction.status)" />
           </tr>
         </ng-template>
       </p-table>
     </p-card>
   </div>
-</div>
+</div> -->
+
+<app-card-novo-usuario 
+  [visibilidadeNovoCliente]="visibilidadeNovoCliente"
+  (emitirVisibilidade)="fecharModal($event)" />

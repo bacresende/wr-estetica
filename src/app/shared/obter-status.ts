@@ -25,3 +25,16 @@ export function getStatusAgendamentoSeverity(status: string) {
 
     return "info";
   }
+
+  export function getStatusFuncaoSeverity(status: string) {
+    switch (status) {
+      case "CLIENTE":
+        return "success";
+      case "ADM":
+        return "info";
+      case "FUNC":
+        return "warning";
+    }
+
+    return "info";
+  }

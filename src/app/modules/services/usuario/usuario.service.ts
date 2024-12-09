@@ -3,6 +3,14 @@ import { CadastroUsuario } from "./../../models/cadastro-usuario.model";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
+import { ReponseCreateRepresentation } from "../../models/response-create.representation";
+
+export interface CadastroUsuarioParcialCommand {
+  nome: string;
+	email: string;
+	telefone: string;
+	cpf: string;
+}
 
 @Injectable({
   providedIn: "root",
@@ -15,10 +23,26 @@ export class UsuarioService {
   constructor(private readonly httpClient: HttpClient) { }
 
   public cadastrarUsuario(cadastroUsuario: CadastroUsuario): Observable<any> {
-
-
     return this.httpClient
       .post<any>(`${this.apiUrl}/cadastrar-usuario`, cadastroUsuario)
+      .pipe(
+        map((resultCadrasto) => {
+          return resultCadrasto.result;
+        }),
+        catchError((e) => {
+          if (e.error.error === "Account already exists for this username.") {
+            return throwError(
+              () => new Error("Já existe um usuário com esse e-mail")
+            );
+          }
+          return throwError(() => new Error(e.error.error));
+        })
+      );
+  }
+
+  public cadastrarUsuarioParcial(cadastroUsuario: CadastroUsuarioParcialCommand): Observable<ReponseCreateRepresentation> {
+    return this.httpClient
+      .post<any>(`${this.apiUrl}/cadastrar-usuario-parcial`, cadastroUsuario)
       .pipe(
         map((resultCadrasto) => {
           return resultCadrasto.result;
@@ -64,6 +88,24 @@ export class UsuarioService {
       .pipe(
         map((resultUsuario: any) => {
           return resultUsuario.result;
+        }),
+        catchError((e) => {
+          let msg = e.error.error;
+
+          return throwError(() => new Error(msg));
+        })
+      );
+  }
+
+  public obterUsuarios(): Observable<Array<CadastroUsuario>> {
+    return this.httpClient
+      .post<any>(
+        `${this.apiUrl}/obter-usuarios`,
+        null
+      )
+      .pipe(
+        map((resultUsuarios: any) => {
+          return resultUsuarios.result;
         }),
         catchError((e) => {
           let msg = e.error.error;

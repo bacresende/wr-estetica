@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
                 icon: "error"
               });
             }
-            console.log("login feito");
+            this.loadingLogin = false;
           }
         },
         error: (error) => {

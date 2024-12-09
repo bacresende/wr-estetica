@@ -32,7 +32,7 @@ header .buttons-text {
   display: flex;
   gap: 5px;
 
-  @media (max-width: 750px) {
+  @media (max-width: 920px) {
     display: none;
   }
 }
@@ -40,7 +40,7 @@ header .buttons-text {
 header .buttons-icon {
   display: none;
 
-  @media (max-width: 750px) {
+  @media (max-width: 920px) {
     display: flex;
   }
 }

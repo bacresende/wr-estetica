@@ -7,6 +7,8 @@ import { TestComponent } from "./modules/pages/test/test.component";
 import { homeResolver } from "./modules/pages/home/home-resolver";
 import { UsuarioComponent } from "./modules/pages/usuario/usuario.component";
 import { usuarioResolver } from "./modules/pages/usuario/usuario.resolver";
+import { UsuariosComponent } from "./modules/pages/usuarios/usuarios.component";
+import { usuariosResolver } from "./modules/pages/usuarios/usuarios.resolver";
 
 export const routes: Routes = [
   {
@@ -43,5 +45,16 @@ export const routes: Routes = [
     resolve: {
       usuario: usuarioResolver
     }
+  },
+
+  {
+    title: 'Ver usuários',
+    path: "usuarios",
+    component: UsuariosComponent,
+    resolve: {
+      usuarios: usuariosResolver
+    }
   }
 ];
+
+

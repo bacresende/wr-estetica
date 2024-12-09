@@ -8,6 +8,9 @@
 <div class="container">
     <section>
         <p-card>
+            <div style="display: flex; justify-content: end;">
+                <p-button label="Atualizar cliente" badge="Breve" [disabled]="true"/>
+            </div>
             <p-tabView>
                 <p-tabPanel header="Informações">
                     <app-info-gerais [usuario]="user?.usuario" />
