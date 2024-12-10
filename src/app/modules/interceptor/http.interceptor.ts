@@ -14,10 +14,14 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(reqClone).pipe(
     shareReplay(),
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 0) {
+    catchError((e: HttpErrorResponse) => {
+      if (e.status === 0) {
         alert('Sem conxão com a internet');
       }
-      return throwError(() => error)
+
+        let msg = e.error.error;
+        console.log(`catchError ${msg}`);
+        return throwError(() => new Error(msg));
+
     }));
 };

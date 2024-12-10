@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
+import { environment } from "../../../../environments/environment";
 
 export interface CepRepresentation {
   cep: string;
@@ -22,12 +23,32 @@ export interface CepRepresentation {
   providedIn: "root",
 })
 export class CepService {
-  private apiUrl = "https://viacep.com.br/ws";
-  constructor(private readonly http: HttpClient) {}
+  private apiUrl = environment.apiUrl;
+
+  constructor(private readonly httpClient: HttpClient) {}
 
   public getDadosCep(cep: string): Observable<CepRepresentation> {
-    const apiCep = `${this.apiUrl}/${cep}/json/`;
-
-    return this.http.get<CepRepresentation>(apiCep);
+    return this.httpClient
+      .post<CepRepresentation>(
+        `${this.apiUrl}/cep-api`,
+        {cep}
+      )
+      .pipe(
+        map((cepResponse: any) => {
+          return cepResponse.result;
+        })
+      );
   }
+
+
+
+
+  // private apiUrl = "https://viacep.com.br/ws";
+  // constructor(private readonly http: HttpClient) {}
+
+  // public getDadosCep(cep: string): Observable<CepRepresentation> {
+  //   const apiCep = `${this.apiUrl}/${cep}/json/`;
+
+  //   return this.http.get<CepRepresentation>(apiCep);
+  // }
 }

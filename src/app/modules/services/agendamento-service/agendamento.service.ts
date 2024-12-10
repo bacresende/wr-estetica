@@ -93,12 +93,8 @@ export class AgendamentoService {
       .pipe(
         map((resultNovoAgendamento: any) => {
           return resultNovoAgendamento.result;
-        }),
-        catchError((e) => {
-          let msg = e.error.error;
-
-          return throwError(() => new Error(msg));
         })
+        
       );
   }
 }

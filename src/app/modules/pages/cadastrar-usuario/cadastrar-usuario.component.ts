@@ -213,7 +213,6 @@ export class CadastrarUsuarioComponent implements OnInit {
 
   public buscarCep(cep: string) {
     cep = cep.replaceAll(".", "").replaceAll("-", "").replaceAll("_", "");
-    console.log(cep.length);
 
     if (cep.length === 8) {
       this.cepService.getDadosCep(cep).subscribe((retornoCep)=>{
