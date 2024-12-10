@@ -83,6 +83,10 @@ header .buttons-icon {
   
 }
 
+.card-responsivo{
+  width: 90%;
+}
+
 /* Media Queries para Responsividade */
 @media (max-width: 768px) {
 }

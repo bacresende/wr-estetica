@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -26,7 +26,8 @@ import { ButtonModule } from 'primeng/button';
   ],
   providers: [MessageService],
   templateUrl: './card-novo-usuario.component.html',
-  styleUrl: './card-novo-usuario.component.css'
+  styleUrl: './card-novo-usuario.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class CardNovoUsuarioComponent implements OnInit{
 

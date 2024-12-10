@@ -1,12 +1,7 @@
 <p-toast />
-<p-dialog 
-    header="Novo cliente" 
-    [modal]="true" 
-    [(visible)]="this.visibilidadeNovoCliente" 
-    [maximizable]="true"
-    (onHide)="fecharModal()"  
-    [style]="{ width: '35rem', heigth: '100%' }">
-    
+<p-dialog header="Novo cliente" [modal]="true" [(visible)]="this.visibilidadeNovoCliente" [maximizable]="true"
+    (onHide)="fecharModal()" [styleClass]="'responsive-dialog'">
+
     <form [formGroup]="formNovoCliente" (ngSubmit)="salvarCliente()">
         <div style="display: flex; flex-direction: column; gap: 1rem">
 
@@ -22,24 +17,24 @@
                 <input type="email" formControlName="email" pInputText placeholder="E-mail" />
             </p-inputGroup>
 
-            <div style="display: flex; width: 100%; box-sizing: border-box">
+            <div style="display: flex; gap: 1rem;">
                 <p-inputGroup>
                     <p-inputGroupAddon> 123</p-inputGroupAddon>
                     <p-inputMask inputmode="numeric" formControlName="cpf" mask="999.999.999-99" placeholder="CPF"
-                        [style]="{ width: '464px' }" />
+                        [style]="{ width: '100%' }" />
                 </p-inputGroup>
-            </div>
-
-            <div style="display: flex; width: 100%; box-sizing: border-box">
+    
+    
                 <p-inputGroup>
                     <p-inputGroupAddon> <i class="pi pi-phone"></i></p-inputGroupAddon>
                     <p-inputMask inputmode="numeric" formControlName="telefone" mask="(99) 9 9999-9999"
-                        placeholder="Telefone" [style]="{'width': '464px',}" />
+                        placeholder="Telefone" [style]="{'width': '100%'}" />
                 </p-inputGroup>
             </div>
+
         </div>
 
-        <div style="margin-top: 15rem; display: flex; justify-content: end; gap: 2rem">
+        <div style="margin-top: 5rem; display: flex; justify-content: end; gap: 2rem">
             <p-button label="Cancelar" severity="secondary" (onClick)="fecharModal()" />
             <p-button label="Salvar" type="submit" />
         </div>

@@ -1,0 +1,17 @@
+/* Sobrescrevendo diretamente os estilos do responsive-dialog */
+.responsive-dialog {
+    width: 90% ;
+    max-width: 35rem ;
+}
+
+@media (min-width: 768px) {
+    .responsive-dialog {
+        width: 50% ;
+    }
+}
+
+@media (min-width: 1024px) {
+    .responsive-dialog {
+        width: 35rem ;
+    }
+}
