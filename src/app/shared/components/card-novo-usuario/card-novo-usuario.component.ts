@@ -64,29 +64,33 @@ export class CardNovoUsuarioComponent implements OnInit{
       this.usuarioService.cadastrarUsuarioParcial(novoUsuarioCommand).subscribe({
         next: (novoCliente)=>{
           if(novoCliente){
-          this.messageService.add({
-              severity: "success",
-              summary: "Oba!",
-              detail: novoCliente.mensagem,
-            });
+            this.mensagemDeServico(novoCliente.mensagem, 'Oba!', 'success');
+          
           }
+          this.limparFormulario();
           this.fecharModal();
         },
         error: (error)=>{
-          this.messageService.add({
-            severity: "warn",
-            summary: "Ops",
-            detail: `${error}`,
-          });
+          this.mensagemDeServico(error, 'Ops!', 'warn');
         }
       });
     } else {
-      this.messageService.add({
-        severity: "warn",
-        summary: "Ops",
-        detail: "Há campos em branco",
-      });
+      this.mensagemDeServico("Há campos em branco", 'Ops!', 'warn');
+      
     }
+  }
+
+  private limparFormulario() {
+    this.formNovoCliente.reset();
+    this.formNovoCliente.markAllAsTouched();
+  }
+
+  private mensagemDeServico(detail: string, summary: 'Oba!'| 'Ops!', severity: 'warn'| 'success'){
+    this.messageService.add({
+      severity,
+      summary,
+      detail,
+    });
   }
 
   private configurarNovoClienteCommand(): CadastroUsuarioParcialCommand {
@@ -102,6 +106,7 @@ export class CardNovoUsuarioComponent implements OnInit{
   }
 
   public fecharModal(){
+    this.limparFormulario();
     this.emitirVisibilidade.emit(false);
   }
 

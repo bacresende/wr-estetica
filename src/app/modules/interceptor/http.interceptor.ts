@@ -18,6 +18,7 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
       if (e.status === 0) {
         alert('Sem conxão com a internet');
       }
+      
 
         let msg = e.error.error;
         console.log(`catchError ${msg}`);
