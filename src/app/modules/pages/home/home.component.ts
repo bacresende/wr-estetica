@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
       command: () => this.verUsuarios(),
     },
     {
-      label: "Agendamento",
+      label: "Agendamentos",
       icon: "pi pi-calendar-clock",
       command: () => this.agendamentos(),
     },
