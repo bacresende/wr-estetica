@@ -99,7 +99,7 @@
 					<p-inputGroupAddon> <i class="pi pi-user"></i> </p-inputGroupAddon>
 					<p-autoComplete formControlName="clienteSelecionado" placeholder="Nome do cliente" [dropdown]="true"
 						[inputStyle]="{ width: '80%' }" [style]="{ width: '100%' }" [suggestions]="clientesFiltrados"
-						[showClear]="true" (completeMethod)="filterCountry($event)" optionLabel="usuario.nome" />
+						[showClear]="true" (completeMethod)="filterUser($event)" optionLabel="usuario.nome" />
 				</p-inputGroup>
 				<p-button icon="pi pi-user-plus" pTooltip="Criar usuário" (onClick)="cadastrarCliente()" severity="success" />
 			</div>

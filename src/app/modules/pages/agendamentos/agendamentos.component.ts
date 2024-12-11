@@ -125,16 +125,16 @@ export class AgendamentosComponent implements OnInit {
     });
   }
 
-  filterCountry(event: AutoCompleteCompleteEvent) {
+  filterUser(event: AutoCompleteCompleteEvent) {
     let filtered: any[] = [];
     let query = event.query;
 
     for (let i = 0; i < (this.clientes as any[]).length; i++) {
-      let country = (this.clientes as any[])[i];
+      let cliente = (this.clientes as any[])[i];
       if (
-        country.usuario.nome.toLowerCase().indexOf(query.toLowerCase()) == 0
+        cliente.usuario.nome.toLowerCase().indexOf(query.toLowerCase()) == 0
       ) {
-        filtered.push(country);
+        filtered.push(cliente);
       }
     }
 
