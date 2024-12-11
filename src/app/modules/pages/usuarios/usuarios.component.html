@@ -7,20 +7,20 @@
 </header>
 
 <div class="container">
-    <p-table class="tabela" #dt2 [value]="usuarios" dataKey="id" scrollHeight="650px" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
-        [loading]="loading" [paginator]="true"
+    @if (usuarios.length > 0) {
+    <p-table class="tabela" #dt2 [value]="usuarios" dataKey="id" scrollHeight="650px" [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
         [globalFilterFields]="['usuario.nome', 'usuario.createdAt', 'usuario.email', 'usuario.funcao', 'usuario.nasc', 'usuario.cpf', 'usuario.ocupacaoProfissional', 'usuario.preCadastro', 'usuario.telefone'  ]"
         [tableStyle]="{ 'min-width': '75rem' }">
         <ng-template pTemplate="caption">
             <div style="display: flex; justify-content: end;">
                 <p-iconField iconPosition="right" style="margin-left: auto; ">
-                        <p-inputIcon>
-                            <i class="pi pi-search" style="color: var(--primary-color);"></i>
-                        </p-inputIcon>
-                        <input pInputText type="text"
-                            class="input"
-                            (input)="filterTable($event)" placeholder="Buscar usuário" />
-                    </p-iconField>
+                    <p-inputIcon>
+                        <i class="pi pi-search" style="color: var(--primary-color);"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" class="input" (input)="filterTable($event)"
+                        placeholder="Buscar usuário" />
+                </p-iconField>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -55,7 +55,8 @@
                 <td>{{ usuarioRep.usuario.email }}</td>
 
                 <td (click)="alterarFuncao(usuarioRep )">
-                    <p-tag [value]="getStatusFuncaoPorExtenso(usuarioRep.usuario.funcao)" pTooltip="Clique para alterar a função"
+                    <p-tag [value]="getStatusFuncaoPorExtenso(usuarioRep.usuario.funcao)"
+                        pTooltip="Clique para alterar a função"
                         [severity]="getStatusFuncaoSeverity(usuarioRep.usuario.funcao)" />
                 </td>
 
@@ -75,10 +76,16 @@
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="5">No customers found.</td>
+                <td colspan="10">Nenhum usuário encontrado</td>
             </tr>
         </ng-template>
     </p-table>
+    }@else {
+    <div
+        style="width: 100%; height: 100dvh; display: flex; justify-content: center; align-items: center; text-align: center;">
+        <h1 style="color: var(--primary-color); font-size: 1.5rem;">Sem usuários</h1>
+    </div>
+    }
 </div>
 
 
