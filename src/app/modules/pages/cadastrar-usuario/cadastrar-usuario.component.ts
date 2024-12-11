@@ -148,12 +148,19 @@ export class CadastrarUsuarioComponent implements OnInit {
         next: (retorno) => {
           console.log(retorno);
           if (retorno) {
+            
             Swal.fire({
               title: "Ops!",
               text: "Você ainda não tem acesso a nossa tela",
               icon: "error"
             });
             this.location.back();
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Oba!",
+              detail: retorno.msg,
+            });
           }
         },
         error: (error) => {

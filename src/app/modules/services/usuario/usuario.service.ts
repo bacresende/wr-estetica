@@ -28,14 +28,6 @@ export class UsuarioService {
       .pipe(
         map((resultCadrasto) => {
           return resultCadrasto.result;
-        }),
-        catchError((e) => {
-          if (e.error.error === "Account already exists for this username.") {
-            return throwError(
-              () => new Error("Já existe um usuário com esse e-mail")
-            );
-          }
-          return throwError(() => new Error(e.error.error));
         })
       );
   }
