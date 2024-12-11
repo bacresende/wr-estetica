@@ -22,9 +22,10 @@ import { RippleModule } from "primeng/ripple";
 import { ToastModule } from "primeng/toast";
 import { TooltipModule } from "primeng/tooltip";
 import { CadastroUsuario } from "../../models/cadastro-usuario.model";
-import { DatePipe } from "@angular/common";
+import { DatePipe, Location } from "@angular/common";
 import { UsuarioService } from "../../services/usuario/usuario.service";
 import { CepService } from "../../services/apiCep/cep.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-cadastrar-usuario",
@@ -60,9 +61,10 @@ export class CadastrarUsuarioComponent implements OnInit {
     private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly messageService: MessageService,
-    private readonly datePipe: DatePipe,
+    // private readonly datePipe: DatePipe,
     private readonly usuarioService: UsuarioService,
-    private readonly cepService: CepService
+    private readonly cepService: CepService,
+    private readonly location: Location
   ) {}
 
   ngOnInit(): void {
@@ -146,7 +148,12 @@ export class CadastrarUsuarioComponent implements OnInit {
         next: (retorno) => {
           console.log(retorno);
           if (retorno) {
-            this.irParaHome();
+            Swal.fire({
+              title: "Ops!",
+              text: "Você ainda não tem acesso a nossa tela",
+              icon: "error"
+            });
+            this.location.back();
           }
         },
         error: (error) => {
@@ -167,17 +174,18 @@ export class CadastrarUsuarioComponent implements OnInit {
   }
 
   public setarObjetoUsuario(): CadastroUsuario {
-    const dataNascimento = this.datePipe.transform(
-      this.formularioCadastro.value.dataNasc,
-      "dd/MM/yyyy"
-    );
+    // const dataNascimento = this.datePipe.transform(
+    //   this.formularioCadastro.value.dataNasc,
+    //   "dd/MM/yyyy"
+    // );
+
 
     return {
       usuario: {
         nome: this.formularioCadastro.value.nome,
         email: this.formularioCadastro.value.email,
         telefone: this.formularioCadastro.value.telefone,
-        nasc: dataNascimento!,
+        nasc: this.formularioCadastro.value.dataNasc,
         senha: this.formularioCadastro.value.senha,
         cpf: this.formularioCadastro.value.cpf,
         ocupacaoProfissional: this.formularioCadastro.value.ocupacao,
