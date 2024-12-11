@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import Swal from 'sweetalert2';
+import { getStatusAgendamentoSeverity, getStatusPagamentoSeverity } from '../../../../../shared/obter-status';
 import { AgendamentoRepresentation } from '../../../../models/agendamento-representation.model';
 import { ServicoRepresentation } from '../../../../models/servico.model';
 import { AgendamentoService, AgendamentoStatusCommand } from '../../../../services/agendamento-service/agendamento.service';
-import { MessageService } from 'primeng/api';
-import { getStatusAgendamentoSeverity, getStatusPagamentoSeverity } from '../../../../../shared/obter-status';
-import Swal from 'sweetalert2';
-import { TagModule } from 'primeng/tag';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-agendamentos-usuario',

@@ -10,53 +10,6 @@
       >
         <div class="card">
           <p-inputGroup>
-            <p-inputGroupAddon> <i class="pi pi-user"></i> </p-inputGroupAddon>
-            <input
-              pInputText
-              type="text"
-              formControlName="nome"
-              placeholder="Seu nome"
-            />
-          </p-inputGroup>
-
-          <div style="display: flex; width: 100%; box-sizing: border-box">
-            <p-inputGroupAddon> 123</p-inputGroupAddon>
-            <p-inputMask
-              inputmode="numeric"
-              formControlName="cpf"
-              mask="999.999.999-99"
-              placeholder="Seu CPF"
-              [style]="{'width': '252px',}"
-            />
-          </div>
-
-          <p-inputGroup>
-            <p-inputGroupAddon>
-              <i class="pi pi-shopping-bag"></i>
-            </p-inputGroupAddon>
-            <input
-              pInputText
-              type="text"
-              formControlName="ocupacao"
-              placeholder="Sua ocupação profissional"
-            />
-          </p-inputGroup>
-          <p-inputGroup>
-            <p-inputGroupAddon> <i class="pi pi-gift"></i> </p-inputGroupAddon>
-            <p-calendar
-              [showIcon]="true"
-              [locale]="ptbrConfiguracao"
-              dateFormat="dd/mm/yy"
-              [readonlyInput]="false"
-              [showButtonBar]="true"
-              [showOnFocus]="false" 
-              formControlName="dataNasc"
-              placeholder="Sua data de nascimento"
-              inputId="birth_date"
-            />
-          </p-inputGroup>
-
-          <p-inputGroup>
             <p-inputGroupAddon> &#64; </p-inputGroupAddon>
             <input
               type="email"
@@ -93,6 +46,38 @@
               ></i>
             </p-inputGroup>
           </div>
+          
+          <p-inputGroup>
+            <p-inputGroupAddon> <i class="pi pi-user"></i> </p-inputGroupAddon>
+            <input
+              pInputText
+              type="text"
+              formControlName="nome"
+              placeholder="Seu nome"
+            />
+          </p-inputGroup>
+
+          <div style="display: flex; width: 100%; box-sizing: border-box">
+            <p-inputGroupAddon> 123</p-inputGroupAddon>
+            <p-inputMask
+              inputmode="numeric"
+              formControlName="cpf"
+              mask="999.999.999-99"
+              placeholder="Seu CPF"
+              [style]="{'width': '252px',}"
+            />
+          </div>
+
+          <div style="display: flex; width: 100%; box-sizing: border-box">
+            <p-inputGroupAddon> <i class="pi pi-gift"></i> </p-inputGroupAddon>
+            <p-inputMask
+              inputmode="numeric"
+              formControlName="dataNasc"
+              mask="99/99/9999"
+              placeholder="Sua data de nascimento"
+              [style]="{'width': '252px',}"
+            />
+          </div>
 
           <div style="display: flex; width: 100%; box-sizing: border-box">
             <p-inputGroupAddon> <i class="pi pi-phone"></i></p-inputGroupAddon>
@@ -104,6 +89,24 @@
               [style]="{'width': '252px',}"
             />
           </div>
+
+          
+
+          
+
+          
+
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-shopping-bag"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              type="text"
+              formControlName="ocupacao"
+              placeholder="Sua ocupação profissional"
+            />
+          </p-inputGroup>
         </div>
       </p-fieldset>
 

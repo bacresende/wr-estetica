@@ -1,6 +1,7 @@
-<p-toast/>
+<p-toast />
 <p-card>
     <div class="container">
+        @if (agendamentosRep.length > 0) {
         <p-table class="tabela" id="tabela" [scrollable]="true" scrollHeight="600px" [value]="agendamentosRep"
             [tableStyle]="{ 'min-width': '50rem' }">
             <ng-template pTemplate="header">
@@ -42,6 +43,9 @@
                 </tr>
             </ng-template>
         </p-table>
+        }@else {
+            <p style="color: var(--primary-color); text-align: center;">Sem agendamentos</p>
+        }
         <p-dialog header="Serviços contratados" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
             [(visible)]="dialogVisible" [style]="{ width: '75vw' }" [contentStyle]="{ height: '300px' }">
             <p-table [value]="servicosAgendados" [scrollable]="true" scrollHeight="flex"
