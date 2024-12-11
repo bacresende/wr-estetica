@@ -23,7 +23,7 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
     finalize(() => loadingService.hide()),
     catchError((e: HttpErrorResponse) => {
       if (e.status === 0) {
-        alert('Sem conxão com a internet');
+        alert('Sem conexão com a internet');
       }
       
 
