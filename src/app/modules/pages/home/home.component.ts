@@ -11,6 +11,7 @@ import { ToastModule } from "primeng/toast";
 import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-usuario/card-novo-usuario.component";
 import { CadastroUsuario } from "../../models/cadastro-usuario.model";
 import { CadastroUsuarioParcialCommand, UsuarioService } from "../../services/usuario/usuario.service";
+import { InfoTextoComponent } from "../../../shared/components/info-texto/info-texto.component";
 
 @Component({
   selector: "app-home",
@@ -21,9 +22,9 @@ import { CadastroUsuarioParcialCommand, UsuarioService } from "../../services/us
     ButtonModule,
     MenuModule,
     TagModule,
-    
     ToastModule,
-    CardNovoUsuarioComponent
+    CardNovoUsuarioComponent,
+    InfoTextoComponent
 ],
   providers: [MessageService],
   templateUrl: "./home.component.html",

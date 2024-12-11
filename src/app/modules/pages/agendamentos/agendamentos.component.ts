@@ -43,6 +43,7 @@ import { UsuarioService } from "../../services/usuario/usuario.service";
 import { getStatusAgendamentoSeverity, getStatusPagamentoSeverity } from "../../../shared/obter-status";
 import { Router } from "@angular/router";
 import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-usuario/card-novo-usuario.component";
+import { InfoTextoComponent } from "../../../shared/components/info-texto/info-texto.component";
 
 @Component({
   selector: "app-agendamentos",
@@ -67,7 +68,8 @@ import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-u
     InputMaskModule,
     AutoCompleteModule,
     DropdownModule,
-    CardNovoUsuarioComponent
+    CardNovoUsuarioComponent,
+    InfoTextoComponent
 ],
   providers: [MessageService, DatePipe],
   templateUrl: "./agendamentos.component.html",

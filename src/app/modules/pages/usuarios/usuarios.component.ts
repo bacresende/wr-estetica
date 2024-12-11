@@ -16,15 +16,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
+import { InfoTextoComponent } from "../../../shared/components/info-texto/info-texto.component";
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
   imports: [
-    ButtonModule, 
-    CardNovoUsuarioComponent, 
-    TableModule, 
-    CommonModule, 
+    ButtonModule,
+    CardNovoUsuarioComponent,
+    TableModule,
+    CommonModule,
     TagModule,
     IconFieldModule,
     InputIconModule,
@@ -32,16 +33,16 @@ import { TooltipModule } from 'primeng/tooltip';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
-    TooltipModule
-    
-  ],
+    TooltipModule,
+    InfoTextoComponent
+],
   providers: [DatePipe],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
 export class UsuariosComponent implements OnInit{
 
-  public usuarios: any | undefined;
+  public usuarios!: CadastroUsuario[];
   public visibilidadeNovoCliente: boolean = false;
   public loading: boolean = true;
 
@@ -63,7 +64,7 @@ export class UsuariosComponent implements OnInit{
   }
   ngOnInit(): void {
     this.usuarios = this.route.snapshot.data['usuarios'];
-    console.log(this.usuarios);
+    
     this.loading = false;
   }
 
