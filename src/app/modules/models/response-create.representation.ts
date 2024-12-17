@@ -1,4 +1,4 @@
-export interface ReponseCreateRepresentation {
+export interface ResponseCreateRepresentation {
     id: string;
     mensagem: string;
 }

@@ -1,4 +1,5 @@
 import { ServicoRepresentation } from "./servico.model";
+import { Usuario } from "./usuario.model";
 
 export interface AgendamentoRepresentation {
   agendamento: Agendamento;
@@ -20,16 +21,4 @@ export interface Pagamento {
   valor: number;
   metodoPagamento: 'Pix'|'Débito'|'Crédito'|'Dinheiro';
   status: 'Pago'|'Pendente'|'Estornado';
-}
-
-export interface Usuario {
-  email: string;
-  nome: string;
-  preCadastro: boolean;
-  telefone: string;
-  nasc: string;
-  cpf: string;
-  ocupacaoProfissional: string;
-  funcao: string;
-  objectId: string;
 }

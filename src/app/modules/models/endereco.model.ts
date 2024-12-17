@@ -7,4 +7,6 @@ export interface Endereco {
   cidade: string;
   estado: string;
   pais: string;
+  objectId?: string;
+
 }

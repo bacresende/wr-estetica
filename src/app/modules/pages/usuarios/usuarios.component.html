@@ -1,3 +1,4 @@
+<p-toast/>
 <header>
     <p-button icon="pi pi-arrow-left" (onClick)="voltar()" />
     <h1>Usuários</h1>
@@ -7,13 +8,14 @@
 </header>
 
 <div class="container">
-    @if (usuarios.length > 0) {
+    @if (usuarios && usuarios.length > 0) {
     <p-table class="tabela" #dt2 [value]="usuarios" dataKey="id" scrollHeight="650px" [rows]="10"
         [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
         [globalFilterFields]="['usuario.nome', 'usuario.createdAt', 'usuario.email', 'usuario.funcao', 'usuario.nasc', 'usuario.cpf', 'usuario.ocupacaoProfissional', 'usuario.preCadastro', 'usuario.telefone'  ]"
         [tableStyle]="{ 'min-width': '75rem' }">
         <ng-template pTemplate="caption">
             <div style="display: flex; justify-content: end;">
+                <p style="font-size: 1rem;">{{usuarios.length}} usuários</p>
                 <p-iconField iconPosition="right" style="margin-left: auto; ">
                     <p-inputIcon>
                         <i class="pi pi-search" style="color: var(--primary-color);"></i>

@@ -17,6 +17,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
 import { InfoTextoComponent } from "../../../shared/components/info-texto/info-texto.component";
+import { UsuarioFuncaoCommand, UsuarioService } from '../../services/usuario/usuario.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-usuarios',
@@ -34,9 +37,10 @@ import { InfoTextoComponent } from "../../../shared/components/info-texto/info-t
     ReactiveFormsModule,
     DropdownModule,
     TooltipModule,
-    InfoTextoComponent
+    InfoTextoComponent,
+    ToastModule
 ],
-  providers: [DatePipe],
+  providers: [DatePipe, MessageService],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -53,7 +57,9 @@ export class UsuariosComponent implements OnInit{
   constructor(
     private readonly route: ActivatedRoute,
     private readonly location: Location,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly usuarioService: UsuarioService,
+    private messageService: MessageService,
 
   ){}
 
@@ -91,16 +97,54 @@ export class UsuariosComponent implements OnInit{
       denyButtonText: this.getStatusFuncaoPorExtenso(funcoes[1]),
       cancelButtonText: "Voltar",
     }).then((result) => {
+
+      if(result.isDismissed){
+        return;
+      }
+      
+      let funcao = '';
       if (result.isConfirmed) {
         //Atualizar
-        //this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Finalizado');
-        Swal.fire(`Usuário alterado para ${this.getStatusFuncaoPorExtenso(funcoes[0])}`, "", "success");
+        funcao = funcoes[0];
       } else if (result.isDenied) {
-        //Deletar
-        //this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Excluído');
-        Swal.fire(`Usuário alterado para ${this.getStatusFuncaoPorExtenso(funcoes[1])}`, "", "success");
+        //Atualizar
+        funcao = funcoes[1];
       }
+
+      this.alterarStatusFuncaoUsuario(usuarioRep.usuario.objectId!, funcao);
     });
+  }
+
+  private alterarStatusFuncaoUsuario(idUsuario: string, funcao: string){
+    const usuarioFuncaoCommand: UsuarioFuncaoCommand = {idUsuario, funcao};
+    this.usuarioService.alterarFuncaoUsuario(usuarioFuncaoCommand).subscribe({
+      next: (usuarioResponse) => {
+        if (usuarioResponse) {
+          
+          this.obterUsuarios();
+
+          this.messageService.add({
+            severity: "success",
+            summary: "Oba!",
+            detail: usuarioResponse.mensagem,
+          });
+
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Ops",
+          detail: `${error}`,
+        });
+      },
+    });
+  }
+
+  private obterUsuarios(){
+    this.usuarioService.obterUsuarios().subscribe((usuarios)=>{
+      this.usuarios = usuarios;
+    })
   }
 
   public voltar(): void {
@@ -115,6 +159,7 @@ export class UsuariosComponent implements OnInit{
   public fecharModal(visibilidade: boolean){
     console.log(`Event de fechar modal: ${visibilidade}`)
     this.visibilidadeNovoCliente = visibilidade;
+    this.obterUsuarios();
   }
 
   public verUsuario(idUsuario: string){

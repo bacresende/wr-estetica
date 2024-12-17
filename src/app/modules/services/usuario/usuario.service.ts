@@ -3,13 +3,18 @@ import { CadastroUsuario } from "./../../models/cadastro-usuario.model";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
-import { ReponseCreateRepresentation } from "../../models/response-create.representation";
+import { ResponseCreateRepresentation } from "../../models/response-create.representation";
 
 export interface CadastroUsuarioParcialCommand {
   nome: string;
 	email: string;
 	telefone: string;
 	cpf: string;
+}
+
+export interface UsuarioFuncaoCommand{
+  idUsuario: string;
+  funcao: string;
 }
 
 @Injectable({
@@ -32,7 +37,7 @@ export class UsuarioService {
       );
   }
 
-  public cadastrarUsuarioParcial(cadastroUsuario: CadastroUsuarioParcialCommand): Observable<ReponseCreateRepresentation> {
+  public cadastrarUsuarioParcial(cadastroUsuario: CadastroUsuarioParcialCommand): Observable<ResponseCreateRepresentation> {
     return this.httpClient
       .post<any>(`${this.apiUrl}/cadastrar-usuario-parcial`, cadastroUsuario)
       .pipe(
@@ -60,6 +65,20 @@ export class UsuarioService {
           }
           return throwError(() => new Error(msg));
         })
+      );
+  }
+
+  public alterarFuncaoUsuario(usuarioFuncaoCommand: UsuarioFuncaoCommand): Observable<ResponseCreateRepresentation> {
+    return this.httpClient
+      .post<ResponseCreateRepresentation>(
+        `${this.apiUrl}/alterar-funcao-usuario`,
+        usuarioFuncaoCommand
+      )
+      .pipe(
+        map((resultNovoAgendamento: any) => {
+          return resultNovoAgendamento.result;
+        })
+        
       );
   }
 

@@ -34,11 +34,11 @@
 					}}
 				</td>
 				<td>{{ agendamentoRep.funcionario.nome }}</td>
-				<td>
+				<td (click)="showDialogOpcoes(agendamentoRep)">
 					<p-tag [value]="agendamentoRep.agendamento.status"
 						[severity]="getStatusAgendamentoSeverity(agendamentoRep.agendamento.status)" />
 				</td>
-				<td>
+				<td  (click)="alterarStatusPagamento(agendamentoRep.agendamento.pagamento)">
 					<p-tag [value]="agendamentoRep.agendamento.pagamento.status"
 						[severity]="getStatusPagamentoSeverity(agendamentoRep.agendamento.pagamento.status)" />
 				</td>

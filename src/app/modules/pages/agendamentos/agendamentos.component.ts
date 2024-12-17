@@ -30,7 +30,7 @@ import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 import { TooltipModule } from "primeng/tooltip";
 import Swal from "sweetalert2";
-import { AgendamentoRepresentation } from "../../models/agendamento-representation.model";
+import { AgendamentoRepresentation, Pagamento } from "../../models/agendamento-representation.model";
 import { CadastroUsuario } from "../../models/cadastro-usuario.model";
 import { ServicoRepresentation } from "../../models/servico.model";
 import {
@@ -44,6 +44,7 @@ import { getStatusAgendamentoSeverity, getStatusPagamentoSeverity } from "../../
 import { Router } from "@angular/router";
 import { CardNovoUsuarioComponent } from "../../../shared/components/card-novo-usuario/card-novo-usuario.component";
 import { InfoTextoComponent } from "../../../shared/components/info-texto/info-texto.component";
+import { PagamentoService, PagamentoStatusCommand } from "../../services/pagamentos/pagamento.service";
 
 @Component({
   selector: "app-agendamentos",
@@ -101,6 +102,7 @@ export class AgendamentosComponent implements OnInit {
 
   constructor(
     private agendamentoService: AgendamentoService,
+    private pagamentoService: PagamentoService,
     private servicoService: ServicoService,
     private usuarioService: UsuarioService,
     private messageService: MessageService,
@@ -222,15 +224,34 @@ export class AgendamentosComponent implements OnInit {
       denyButtonText: `Excluir`,
       cancelButtonText: "Voltar",
     }).then((result) => {
+      if(result.isDismissed){
+        return;
+      }
+      let status = '';
+
       if (result.isConfirmed) {
         //Atualizar
-        this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Finalizado');
-        Swal.fire("Agendamento Finalizado!", "", "success");
+        status = 'Finalizado';
+        
       } else if (result.isDenied) {
         //Deletar
-        this.alterarStatusAgendamento(agendamentoRep.agendamento.id, 'Excluído');
-        Swal.fire("Agendamento excluído!", "", "error");
+        status = 'Excluído';
       }
+
+      Swal.fire({
+        title: "Você tem certeza?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, alterar!",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.alterarStatusAgendamento(agendamentoRep.agendamento.id, status);
+          
+        }
+      });
     });
   }
 
@@ -251,6 +272,68 @@ export class AgendamentosComponent implements OnInit {
     this.visibilidadeNovoCliente = visibilidade;
 
   }
+
+  public alterarStatusPagamento(pagamento: Pagamento){
+    let pagamentos: Array<string> = ['Pago', 'Pendente', 'Estornado']
+    
+    pagamentos = pagamentos.filter((p)=> p !== pagamento.status);
+    
+    Swal.fire({
+      title: `<p>Qual status deseja inserir para o pagamento?</p>`,   
+       
+      showConfirmButton: true,
+      showDenyButton: true,
+      denyButtonColor: 'green',
+      showCancelButton: true,
+      confirmButtonText: pagamentos[0],
+      denyButtonText: pagamentos[1],
+      cancelButtonText: "Voltar",
+    }).then((result) => {
+      if(result.isDismissed){
+        return;
+      }
+      
+      let status = '';
+      if (result.isConfirmed) {
+        //Atualizar
+        status = pagamentos[0];
+      } else if (result.isDenied) {
+        //Atualizar
+        status = pagamentos[1];
+      }
+
+      this.alterarStatusPagamentoServ(pagamento.id, status);
+    });
+  }
+
+  private alterarStatusPagamentoServ(idPagamento: string, status: string): void{
+    const pagamentoCommand: PagamentoStatusCommand = {idPagamento, status} 
+    
+    this.pagamentoService.alterarStatusPagamento(pagamentoCommand).subscribe({
+      next: (pagamentoResponse) => {
+        if (pagamentoResponse) {
+          console.log(pagamentoResponse);
+          this.obterAgendamentos();
+
+          this.messageService.add({
+            severity: "success",
+            summary: "Oba!",
+            detail: pagamentoResponse.mensagem,
+          });
+
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: "warn",
+          summary: "Ops",
+          detail: `${error}`,
+        });
+      },
+    });
+
+  }
+  
 
   public salvarAgendamento() {
     this.validarPreenchimentoCliente();
@@ -350,6 +433,12 @@ export class AgendamentosComponent implements OnInit {
       next: (agendamentoRes) => {
         if (agendamentoRes) {
           this.obterAgendamentos();
+
+          this.messageService.add({
+            severity: "success",
+            summary: "Oba!",
+            detail: agendamentoRes.mensagem,
+          });
         }
       },
       error: (error) => {
